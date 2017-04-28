@@ -4,14 +4,9 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.widget.DatePicker;
 
 import java.util.Calendar;
-
-/**
- * Created by tomoki on 2017/04/28.
- */
 
 public class DatePick extends DialogFragment implements DatePickerDialog.OnDateSetListener{
     @Override

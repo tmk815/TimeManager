@@ -20,21 +20,37 @@
         android:layout_height="wrap_content"
         android:text="@string/date_button"
         android:onClick="showDatePickerDialog"/>
-    
+
     <Button
-        android:id="@+id/time1"
+        android:id="@+id/starttimeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/time_button"
+        android:text="@string/starttime_button"
         app:layout_constraintTop_toBottomOf="@id/date"
-        android:onClick="showTimePickerDialog"/>
+        android:onClick="showStartTimePickerDialog"/>
 
     <TextView
-        android:id="@+id/timeText1"
+        android:id="@+id/startTimeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/time1"
-        app:layout_constraintLeft_toRightOf="@+id/time1"
-        android:text="@string/time_text"/>
+        app:layout_constraintTop_toTopOf="@id/starttimeButton"
+        app:layout_constraintLeft_toRightOf="@+id/starttimeButton"
+        android:text="@string/starttime_text"/>
+
+    <Button
+        android:id="@+id/endTimeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/endtime_button"
+        app:layout_constraintTop_toBottomOf="@id/starttimeButton"
+        android:onClick="showEndTimePickerDialog"/>
+
+    <TextView
+        android:id="@+id/endTimeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/endTimeButton"
+        app:layout_constraintLeft_toRightOf="@+id/endTimeButton"
+        android:text="@string/endtime_text"/>
 
 </android.support.constraint.ConstraintLayout>

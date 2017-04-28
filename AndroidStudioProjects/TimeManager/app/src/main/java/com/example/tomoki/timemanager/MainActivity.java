@@ -13,14 +13,16 @@ import android.widget.TimePicker;
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
 
     private TextView dateText;
-    private TextView timeText1;
+    private TextView startTime,endTime;
+    private int text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dateText=(TextView)findViewById(R.id.dateText);
-        timeText1=(TextView)findViewById(R.id.timeText1);
+        startTime=(TextView)findViewById(R.id.startTimeText);
+        endTime=(TextView)findViewById(R.id.endTimeText);
     }
 
     //取得した年月日をTextViewに表示
@@ -37,12 +39,22 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     //取得した時刻をTextViewに表示
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        timeText1.setText( String.valueOf(hourOfDay)  + ":" + String.valueOf(minute) );
+        if(text==0) {
+            startTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+        }else {
+            endTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+        }
     }
 
-    public void showTimePickerDialog(View v) {
+    public void showStartTimePickerDialog(View v) {
+        text=0;
         DialogFragment newFragment = new TimePick();
         newFragment.show(getSupportFragmentManager(), "timePicker");
+    }
 
+    public void showEndTimePickerDialog(View v) {
+        text=1;
+        DialogFragment newFragment = new TimePick();
+        newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 }

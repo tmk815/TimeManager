@@ -1,0 +1,7 @@
+<application>
+  <component name="FindRecents">
+    <findStrings>
+      <find>onDateSet</find>
+    </findStrings>
+  </component>
+</application>
