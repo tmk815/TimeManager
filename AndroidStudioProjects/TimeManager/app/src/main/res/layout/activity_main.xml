@@ -6,13 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.example.tomoki.timemanager.MainActivity">
 
-    <DatePicker
-        android:id="@+id/datePicker1"
+    <Button
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:calendarViewShown="false" />
+        android:text="日付選択"
+        android:onClick="showTimePickerDialog"/>
 
 </android.support.constraint.ConstraintLayout>
