@@ -19,6 +19,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="日付選択"
-        android:onClick="showTimePickerDialog"/>
+        android:onClick="showDatePiclerDialog"/>
 
 </android.support.constraint.ConstraintLayout>
