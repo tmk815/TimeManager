@@ -21,4 +21,19 @@
         android:text="@string/date_button"
         android:onClick="showDatePickerDialog"/>
 
+    <TextView
+        android:id="@+id/timeText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/date"
+        android:text="@string/time_text"/>
+
+    <Button
+        android:id="@+id/time1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/time_button"
+        android:onClick="showTimePickerDialog"/>
+
 </android.support.constraint.ConstraintLayout>
