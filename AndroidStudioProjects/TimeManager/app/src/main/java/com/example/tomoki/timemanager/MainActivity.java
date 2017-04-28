@@ -9,32 +9,24 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,DatePickerDialog.OnDateSetListener {
+public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private TextView dateText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dateText=(TextView)findViewById(R.id.dateText);
-        Button dateButton=(Button)findViewById(R.id.date);
-        dateButton.setOnClickListener(this);
     }
 
     @Override
     public void onDateSet(DatePicker view,int year,int monthOfYear,int dayOfMonth){
-        dateText.setText(String.valueOf(year)+"/"+ String.valueOf(monthOfYear));
+        dateText.setText(String.valueOf(year)+"/"+ String.valueOf(monthOfYear)+"/"+String.valueOf(dayOfMonth));
     }
 
-    public void showDatePiclerDialog(View v){
-        DialogFragment newFlagment=new DatePick();
-        newFlagment.show(getSupportFragmentManager(),"datePicker");
-    }
-
-    @Override
-    public void onClick(View v) {
-        if(R.id.date==v.getId()){
-
-        }
+    public void showDatePickerDialog(View v){
+        DialogFragment newFragment=new DatePick();
+        newFragment.show(getSupportFragmentManager(),"datePicker");
     }
 }
