@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context="com.example.tomoki.timemanager.MainActivity">
 
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/date"
+        android:text="aaaaa"/>
+
     <Button
         android:id="@+id/date"
         android:layout_width="wrap_content"
