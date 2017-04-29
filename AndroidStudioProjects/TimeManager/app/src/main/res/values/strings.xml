@@ -6,4 +6,5 @@
     <string name="starttime_text">開始時刻表示</string>
     <string name="endtime_button">終了時刻選択</string>
     <string name="endtime_text">終了時刻表示</string>
+    <string name="save">保存</string>
 </resources>
