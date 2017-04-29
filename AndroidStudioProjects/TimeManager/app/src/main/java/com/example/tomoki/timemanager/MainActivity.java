@@ -46,12 +46,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         }
     }
 
+    //開始時刻
     public void showStartTimePickerDialog(View v) {
         text=0;
         DialogFragment newFragment = new TimePick();
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
+    //終了時刻
     public void showEndTimePickerDialog(View v) {
         text=1;
         DialogFragment newFragment = new TimePick();
