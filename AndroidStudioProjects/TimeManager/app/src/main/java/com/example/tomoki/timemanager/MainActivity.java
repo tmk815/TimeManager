@@ -2,9 +2,12 @@ package com.example.tomoki.timemanager;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -15,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private TextView dateText;
     private TextView startTime,endTime;
     private int text;
+    static SQLiteDatabase timedb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,16 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         dateText=(TextView)findViewById(R.id.dateText);
         startTime=(TextView)findViewById(R.id.startTimeText);
         endTime=(TextView)findViewById(R.id.endTimeText);
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
+        timedb = databaseHelper.getWritableDatabase();
+    }
+
+    public void addData(View v){
+        ContentValues values = new ContentValues();
+        values.put("time", "data1");
+        timedb.insert("mytable", null, values);
+        Log.d("MainActivity","データを追加しました。");
     }
 
     //取得した年月日をTextViewに表示
