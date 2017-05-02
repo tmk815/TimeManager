@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     public void addData(View v){
         ContentValues values = new ContentValues();
         values.put("time", "data1");
-        timedb.insert("mytable", null, values);
+        timedb.insert("timedb", null, values);
         Log.d("MainActivity","データを追加しました。");
     }
 
