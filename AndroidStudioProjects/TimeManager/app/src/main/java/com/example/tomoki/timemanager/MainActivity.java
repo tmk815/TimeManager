@@ -76,5 +76,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     //文字列の分離
+    public String[] cutString(String text){
+        String[] cutText=text.split(":");
+        return cutText;
+    }
 
 }
