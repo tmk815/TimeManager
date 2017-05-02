@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         timedb = databaseHelper.getWritableDatabase();
     }
 
+    //DBへの書き込み(暫定)
     public void addData(View v){
         ContentValues values = new ContentValues();
         values.put("time", "data1");
@@ -73,4 +74,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         DialogFragment newFragment = new TimePick();
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
+
+    //文字列の分離
+
 }
