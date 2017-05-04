@@ -5,7 +5,10 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.widget.TimePicker;
+
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class TimePick extends DialogFragment implements TimePickerDialog.OnTimeSetListener{

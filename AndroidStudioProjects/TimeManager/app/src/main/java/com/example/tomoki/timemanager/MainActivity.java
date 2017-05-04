@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     //取得した年月日をTextViewに表示
     @Override
     public void onDateSet(DatePicker view,int year,int monthOfYear,int dayOfMonth){
-        dateText.setText(String.valueOf(year)+"/"+ String.valueOf(monthOfYear+1)+"/"+String.valueOf(dayOfMonth));
+        //dateText.setText(String.valueOf(year)+"/"+ String.valueOf(monthOfYear+1)+"/"+String.valueOf(dayOfMonth));
+        dateText.setText(String.format("%d-%02d-%02d",year,monthOfYear+1,dayOfMonth));
     }
 
     public void showDatePickerDialog(View v){
@@ -57,9 +58,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         if(text==0) {
-            startTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+            //startTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+            startTime.setText(String.format("%02d:%02d",hourOfDay,minute));
         }else {
-            endTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+            //endTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+            endTime.setText(String.format("%02d:%02d",hourOfDay,minute));
         }
     }
 
