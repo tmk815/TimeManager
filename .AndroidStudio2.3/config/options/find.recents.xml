@@ -2,6 +2,7 @@
   <component name="FindRecents">
     <findStrings>
       <find>onDateSet</find>
+      <find>hoge</find>
     </findStrings>
   </component>
 </application>

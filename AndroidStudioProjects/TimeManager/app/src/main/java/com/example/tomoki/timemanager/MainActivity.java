@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private TextView startTime,endTime;
     private int text;
     static SQLiteDatabase timedb;
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,18 +29,28 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         startTime=(TextView)findViewById(R.id.startTimeText);
         endTime=(TextView)findViewById(R.id.endTimeText);
 
-        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
+        databaseHelper = new DatabaseHelper(getApplicationContext());
         timedb = databaseHelper.getWritableDatabase();
     }
 
     //DBへの書き込み(暫定)
     public void addData(View v){
+        timedb = databaseHelper.getWritableDatabase();
         timedb.beginTransaction();
-        ContentValues values = new ContentValues();
-        values.put("time", "data1");
-        timedb.insert("timedb", null, values);
-        Log.d("MainActivity","データを追加しました。");
-        timedb.endTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put("time", "data1");
+            values.put("date", "data2");
+            timedb.insert("timedb", null, values);
+            Log.d("MainActivity", "データを追加しました。");
+            timedb.setTransactionSuccessful();
+        }catch (Exception e){
+                Log.e("Database", e.getMessage());
+        }finally {
+            timedb.endTransaction();
+            timedb.close();
+            timedb = null;
+        }
     }
 
     //取得した年月日をTextViewに表示
