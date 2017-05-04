@@ -34,10 +34,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     //DBへの書き込み(暫定)
     public void addData(View v){
+        timedb.beginTransaction();
         ContentValues values = new ContentValues();
         values.put("time", "data1");
         timedb.insert("timedb", null, values);
         Log.d("MainActivity","データを追加しました。");
+        timedb.endTransaction();
     }
 
     //取得した年月日をTextViewに表示
