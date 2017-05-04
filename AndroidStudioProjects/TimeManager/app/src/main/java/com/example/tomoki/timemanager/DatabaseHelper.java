@@ -9,7 +9,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     static final String DB_NAME="timemanager.db";
     static final int DB_VERSION=1;
-    static final String CREATE_TABLE="create table timedb ( _id integer primary key autoincrement, time integer not null );";
+    static final String CREATE_TABLE="create table timedb ( _id integer primary key autoincrement, date text not null, time text not null );";
     static final String DROP_TABLE="drop table timedb;";
 
     public DatabaseHelper(Context context) {
