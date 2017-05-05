@@ -4,4 +4,6 @@
     <string name="defaulttime_text">0：00</string>
     <string name="wavyline">～</string>
     <string name="save">保存</string>
+    <string name="breaktime">休憩時間</string>
+    <string name="min">分</string>
 </resources>
