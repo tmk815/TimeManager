@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
 
@@ -39,10 +40,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         timedb.beginTransaction();
         try {
             ContentValues values = new ContentValues();
-            values.put("time", "data1");
-            values.put("date", "data2");
+            values.put("date", dateText.getText().toString());
+            values.put("starttime", startTime.getText().toString());
+            values.put("endtime",endTime.getText().toString());
             timedb.insert("timedb", null, values);
             Log.d("MainActivity", "データを追加しました。");
+            Toast.makeText(this,"データを追加しました",Toast.LENGTH_SHORT).show();
             timedb.setTransactionSuccessful();
         }catch (Exception e){
                 Log.e("Database", e.getMessage());
@@ -96,5 +99,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         String[] cutText=text.split(":");
         return cutText;
     }
+
+
 
 }
