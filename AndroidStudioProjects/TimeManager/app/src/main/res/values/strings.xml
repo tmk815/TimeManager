@@ -1,10 +1,7 @@
 <resources>
     <string name="app_name">TimeManager</string>
-    <string name="date_button">日付選択</string>
-    <string name="date_text">日付表示</string>
-    <string name="starttime_button">開始時刻選択</string>
-    <string name="starttime_text">開始時刻表示</string>
-    <string name="endtime_button">終了時刻選択</string>
-    <string name="endtime_text">終了時刻表示</string>
+    <string name="date_text">日付選択</string>
+    <string name="defaulttime_text">0：00</string>
+    <string name="wavyline">～</string>
     <string name="save">保存</string>
 </resources>

@@ -12,25 +12,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/date_text"
-        app:layout_constraintTop_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
+        android:onClick="showDatePickerDialog"/>
 
-    <TextView
-        android:id="@+id/startTimeText"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/starttime_text"
-        android:onClick="showStartTimePickerDialog"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/startTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/defaulttime_text"
+            android:onClick="showStartTimePickerDialog" />
 
-    <TextView
-        android:id="@+id/endTimeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/endtime_text"
-        tools:layout_editor_absoluteX="108dp"
-        tools:layout_editor_absoluteY="96dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wavyline"/>
+
+        <TextView
+            android:id="@+id/endTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/defaulttime_text"
+            android:onClick="showEndTimePickerDialog"/>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/save"
