@@ -39,25 +39,36 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/place"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/breaktime" />
+            android:hint="@string/place" />
 
-        <NumberPicker
-            android:id="@+id/breaktime"
-            android:layout_width="50dp"
-            android:layout_height="70dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/min" />
+            android:gravity="center_vertical|right">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/breaktime" />
+
+            <NumberPicker
+                android:id="@+id/breaktime"
+                android:layout_width="50dp"
+                android:layout_height="70dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/min" />
+            </LinearLayout>
     </LinearLayout>
 
     <Button
@@ -68,5 +79,11 @@
         android:text="@string/save"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="144dp" />
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
 </LinearLayout>

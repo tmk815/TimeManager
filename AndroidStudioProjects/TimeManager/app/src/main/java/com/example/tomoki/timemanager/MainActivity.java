@@ -3,40 +3,56 @@ package com.example.tomoki.timemanager;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
 
     private TextView dateText;
     private TextView startTime,endTime;
     private NumberPicker breaktime;
+    private ListView timelistView;
     private int text;
     static SQLiteDatabase timedb;
     private DatabaseHelper databaseHelper;
+    private Cursor cursor=null;
+    private SimpleCursorAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dateText=(TextView)findViewById(R.id.dateText);
-        startTime=(TextView)findViewById(R.id.startTimeText);
-        endTime=(TextView)findViewById(R.id.endTimeText);
-        breaktime = (NumberPicker)findViewById(R.id.breaktime);
+        dateText = (TextView) findViewById(R.id.dateText);
+        startTime = (TextView) findViewById(R.id.startTimeText);
+        endTime = (TextView) findViewById(R.id.endTimeText);
+        breaktime = (NumberPicker) findViewById(R.id.breaktime);
+        timelistView = (ListView) findViewById(R.id.list);
         breaktime.setMinValue(0);
         breaktime.setMaxValue(150);
 
         databaseHelper = new DatabaseHelper(getApplicationContext());
         timedb = databaseHelper.getWritableDatabase();
+        cursor=timedb.query("timedb",null,null,null,null,null,null);
+        cursor.moveToFirst();
+
+        adapter = new SimpleCursorAdapter(this, R.layout.item, cursor, new String[]{
+                "date", "starttime"}, new int[]{R.id.listdate, R.id.listtime}, 0);
+
+        timelistView.setAdapter(adapter);
     }
 
     //DBへの書き込み(暫定)

@@ -6,4 +6,5 @@
     <string name="save">保存</string>
     <string name="breaktime">休憩時間</string>
     <string name="min">分</string>
+    <string name="place">勤務地</string>
 </resources>
