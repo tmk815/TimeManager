@@ -18,7 +18,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
 
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private DatabaseHelper databaseHelper;
     private Cursor cursor=null;
     private SimpleCursorAdapter adapter;
+    private Date s_time_date,e_time_date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,19 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     //DBへの書き込み(暫定)
     public void addData(View v){
+        String s_time=dateText.getText().toString()+" "+startTime.getText().toString();
+        String e_time=dateText.getText().toString()+" "+endTime.getText().toString();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            s_time_date = sdf.parse(s_time);
+            e_time_date=sdf.parse(e_time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long dateTimeTo = s_time_date.getTime();
+        long dateTimeFrom = e_time_date.getTime();
+        long result=(dateTimeFrom-dateTimeTo)/ (1000 * 60);
+        Log.d("result",String.valueOf(result));
         timedb = databaseHelper.getWritableDatabase();
         timedb.beginTransaction();
         try {
@@ -65,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             values.put("starttime", startTime.getText().toString());
             values.put("endtime",endTime.getText().toString());
             values.put("breaktime",String.valueOf(breaktime.getValue()));
+            values.put("result",result);
             timedb.insert("timedb", null, values);
             Log.d("MainActivity", "データを追加しました。");
             Toast.makeText(this,"データを追加しました",Toast.LENGTH_SHORT).show();
