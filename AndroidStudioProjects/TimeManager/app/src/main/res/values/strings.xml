@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TimeManager</string>
     <string name="date_text">日付選択</string>
-    <string name="defaulttime_text">0：00</string>
+    <string name="defaulttime_text">00:00</string>
     <string name="wavyline">～</string>
     <string name="save">保存</string>
     <string name="breaktime">休憩時間</string>

@@ -1,6 +1,8 @@
 package com.example.tomoki.timemanager;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -22,7 +24,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener {
+public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener, SimpleCursorAdapter.ViewBinder {
 
     private TextView dateText;
     private TextView startTime,endTime;
@@ -34,6 +36,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private Cursor cursor=null;
     private SimpleCursorAdapter adapter;
     private Date s_time_date,e_time_date;
+    private long result;
+    boolean dateflag=false,stimeflag=false,etimeflag=false;
+
+    private static final int ID = 0;
+    private static final int DATE = 1;
+    private static final int RESULT = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,45 +61,69 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         cursor.moveToFirst();
 
         adapter = new SimpleCursorAdapter(this, R.layout.item, cursor, new String[]{
-                "date", "starttime"}, new int[]{R.id.listdate, R.id.listtime}, 0);
-
+                "date", "result"}, new int[]{R.id.listdate, R.id.listtime}, 0);
+        adapter.setViewBinder(this);
         timelistView.setAdapter(adapter);
+    }
+
+    public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+        switch (columnIndex) {
+            case RESULT:
+                TextView id = (TextView) view;
+                int result=Integer.parseInt(cursor.getString(columnIndex));
+                int time=result/60;
+                int minute=result%60;
+                id.setText("勤務時間："+time+"時間"+minute+"分");
+                return true;
+            default:
+                break;
+        }
+        return false;
     }
 
     //DBへの書き込み(暫定)
     public void addData(View v){
-        String s_time=dateText.getText().toString()+" "+startTime.getText().toString();
-        String e_time=dateText.getText().toString()+" "+endTime.getText().toString();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        try {
-            s_time_date = sdf.parse(s_time);
-            e_time_date=sdf.parse(e_time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        long dateTimeTo = s_time_date.getTime();
-        long dateTimeFrom = e_time_date.getTime();
-        long result=(dateTimeFrom-dateTimeTo)/ (1000 * 60);
-        Log.d("result",String.valueOf(result));
-        timedb = databaseHelper.getWritableDatabase();
-        timedb.beginTransaction();
-        try {
-            ContentValues values = new ContentValues();
-            values.put("date", dateText.getText().toString());
-            values.put("starttime", startTime.getText().toString());
-            values.put("endtime",endTime.getText().toString());
-            values.put("breaktime",String.valueOf(breaktime.getValue()));
-            values.put("result",result);
-            timedb.insert("timedb", null, values);
-            Log.d("MainActivity", "データを追加しました。");
-            Toast.makeText(this,"データを追加しました",Toast.LENGTH_SHORT).show();
-            timedb.setTransactionSuccessful();
-        }catch (Exception e){
+        if(dateflag==true&&stimeflag==true&&etimeflag==true) {
+            timedb = databaseHelper.getWritableDatabase();
+            timedb.beginTransaction();
+            try {
+                String s_time = startTime.getText().toString();
+                Log.d("time", s_time);
+                String e_time = endTime.getText().toString();
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                s_time_date = sdf.parse(s_time);
+                e_time_date = sdf.parse(e_time);
+
+                long dateTimeTo = s_time_date.getTime();
+                long dateTimeFrom = e_time_date.getTime();
+                result = (dateTimeFrom - dateTimeTo) / (1000 * 60);
+                if (result < 0) {
+                    result += 24 * 60;
+                }
+                Log.d("result", String.valueOf(result));
+                ContentValues values = new ContentValues();
+                values.put("date", dateText.getText().toString());
+                values.put("starttime", startTime.getText().toString());
+                values.put("endtime", endTime.getText().toString());
+                values.put("breaktime", String.valueOf(breaktime.getValue()));
+                values.put("result", result);
+                timedb.insert("timedb", null, values);
+                Log.d("MainActivity", "データを追加しました。");
+                Toast.makeText(this, "データを追加しました", Toast.LENGTH_SHORT).show();
+                timedb.setTransactionSuccessful();
+            } catch (Exception e) {
                 Log.e("Database", e.getMessage());
-        }finally {
-            timedb.endTransaction();
-            timedb.close();
-            timedb = null;
+            } finally {
+                timedb.endTransaction();
+                timedb.close();
+                timedb = null;
+            }
+        }else{
+            new AlertDialog.Builder(this)
+                    .setTitle("エラー")
+                    .setMessage("未選択の項目があります")
+                    .setPositiveButton("OK", null)
+                    .show();
         }
     }
 
@@ -100,6 +132,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     public void onDateSet(DatePicker view,int year,int monthOfYear,int dayOfMonth){
         //dateText.setText(String.valueOf(year)+"/"+ String.valueOf(monthOfYear+1)+"/"+String.valueOf(dayOfMonth));
         dateText.setText(String.format("%d-%02d-%02d",year,monthOfYear+1,dayOfMonth));
+        dateflag=true;
+
     }
 
     public void showDatePickerDialog(View v){
@@ -113,9 +147,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         if(text==0) {
             //startTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
             startTime.setText(String.format("%02d:%02d",hourOfDay,minute));
+            stimeflag=true;
         }else {
             //endTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
             endTime.setText(String.format("%02d:%02d",hourOfDay,minute));
+            etimeflag=true;
         }
     }
 
@@ -131,12 +167,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         text=1;
         DialogFragment newFragment = new TimePick();
         newFragment.show(getSupportFragmentManager(), "timePicker");
-    }
-
-    //文字列の分離
-    public String[] cutString(String text){
-        String[] cutText=text.split(":");
-        return cutText;
     }
 
 
