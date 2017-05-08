@@ -23,21 +23,21 @@
         android:background="@drawable/shape">
         <TextView
             android:id="@+id/startTimeText"
-            android:textSize="30sp"
+            android:textSize="40sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/defaulttime_text"
             android:onClick="showStartTimePickerDialog" />
 
         <TextView
-            android:textSize="30sp"
+            android:textSize="40sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/wavyline"/>
 
         <TextView
             android:id="@+id/endTimeText"
-            android:textSize="30sp"
+            android:textSize="40sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/defaulttime_text"
@@ -80,7 +80,7 @@
 
     <Button
         android:id="@+id/save"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="addData"
         android:text="@string/save"
