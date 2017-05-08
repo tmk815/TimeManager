@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private TextView dateText;
     private TextView startTime,endTime;
     private NumberPicker breaktime;
+    private EditText place;
     private ListView timelistView;
     private int text;
     static SQLiteDatabase timedb;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         startTime = (TextView) findViewById(R.id.startTimeText);
         endTime = (TextView) findViewById(R.id.endTimeText);
         breaktime = (NumberPicker) findViewById(R.id.breaktime);
+        place=(EditText)findViewById(R.id.place);
         timelistView = (ListView) findViewById(R.id.list);
         breaktime.setMinValue(0);
         breaktime.setMaxValue(150);
@@ -104,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 values.put("endtime", endTime.getText().toString());
                 values.put("breaktime", String.valueOf(breaktime.getValue()));
                 values.put("result", result);
+                values.put("place",place.getText().toString());
                 timedb.insert("timedb", null, values);
                 Log.d("MainActivity", "データを追加しました。");
                 Toast.makeText(this, "データを追加しました", Toast.LENGTH_SHORT).show();
