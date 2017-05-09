@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -64,8 +65,21 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 "date", "result"}, new int[]{R.id.listdate, R.id.listtime}, 0);
         adapter.setViewBinder(this);
         timelistView.setAdapter(adapter);
+
+        //ListViewのクリック時処理
+        timelistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                String currentId = cursor.getString(cursor.getColumnIndex("_id"));
+                String currentName = cursor.getString(cursor.getColumnIndex("place"));
+                Toast.makeText(getApplicationContext(), "id="+currentId+",place="+currentName, Toast.LENGTH_SHORT).show();
+
+            }
+
+        });
     }
 
+    //指定した書式でListViewにデータを挿入
     public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
         switch (columnIndex) {
             case RESULT:
@@ -81,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         return false;
     }
 
-    //DBへの書き込み(暫定)
+    //DBへの書き込み
     public void addData(View v){
         if(dateflag==true&&stimeflag==true&&etimeflag==true) {
             timedb = databaseHelper.getWritableDatabase();
@@ -122,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 timedb = null;
             }
         }else{
+            //エラーのダイアログを表示
             new AlertDialog.Builder(this)
                     .setTitle("エラー")
                     .setMessage("未選択の項目があります")
@@ -139,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     }
 
+    //DatePiclerDialogの表示
     public void showDatePickerDialog(View v){
         DialogFragment newFragment=new DatePick();
         newFragment.show(getSupportFragmentManager(),"datePicker");
@@ -148,11 +164,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         if(text==0) {
-            //startTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
             startTime.setText(String.format("%02d:%02d",hourOfDay,minute));
             stimeflag=true;
         }else {
-            //endTime.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
             endTime.setText(String.format("%02d:%02d",hourOfDay,minute));
             etimeflag=true;
         }

@@ -3,6 +3,8 @@
     <findStrings>
       <find>onDateSet</find>
       <find>hoge</find>
+      <find>ListView</find>
+      <find>アメリカ</find>
     </findStrings>
   </component>
 </application>
