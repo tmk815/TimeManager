@@ -115,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             } catch (Exception e) {
                 Log.e("Database", e.getMessage());
             } finally {
+                cursor=timedb.query("timedb",null,null,null,null,null,null);
+                adapter.changeCursor(cursor);
                 timedb.endTransaction();
                 timedb.close();
                 timedb = null;
