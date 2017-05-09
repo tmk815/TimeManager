@@ -2,8 +2,11 @@ package com.example.tomoki.timemanager;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.DialogFragment;
@@ -29,12 +32,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private TextView startTime,endTime;
     private NumberPicker breaktime;
     private EditText place;
-    private ListView timelistView;
+    public static ListView timelistView;
     private int text;
-    static SQLiteDatabase timedb;
+    public static SQLiteDatabase timedb;
     private DatabaseHelper databaseHelper;
-    private Cursor cursor=null;
-    private SimpleCursorAdapter adapter;
+    public static Cursor cursor=null;
+    public static SimpleCursorAdapter adapter;
     private Date s_time_date,e_time_date;
     private long result;
     boolean dateflag=false,stimeflag=false,etimeflag=false;
@@ -69,14 +72,46 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         //ListViewのクリック時処理
         timelistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 String currentId = cursor.getString(cursor.getColumnIndex("_id"));
                 String currentName = cursor.getString(cursor.getColumnIndex("place"));
                 Toast.makeText(getApplicationContext(), "id="+currentId+",place="+currentName, Toast.LENGTH_SHORT).show();
 
+                Dialog(currentId);
+                /*Bundle bundle = new Bundle();
+                bundle.putString("id", currentId);
+                Log.d(currentId, cursor.getString(cursor.getColumnIndex("_id")));
+                DialogFragment newFragment = new ContactUsDialogFragment();
+                newFragment.setArguments(bundle);
+                newFragment.show(getSupportFragmentManager(), "Dialog");*/
             }
-
         });
+
+    }
+
+    public void Dialog(final String currentId){
+        CharSequence[] items={"削除","編集","閉じる"};
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setTitle(currentId+"番の操作");
+        builder.setItems(items,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case 0:
+                                SQLiteDatabase deletedb=databaseHelper.getWritableDatabase();
+                                timedb = databaseHelper.getWritableDatabase();
+                                deletedb.delete("timedb","_id = "+currentId,null);
+                                refresh_list();
+                        }
+                    }
+                }).show();
+    }
+
+    public void refresh_list(){
+        cursor=timedb.query("timedb",null,null,null,null,null,null);
+        adapter.changeCursor(cursor);
+        timedb.close();
+        timedb=null;
     }
 
     //指定した書式でListViewにデータを挿入
@@ -129,11 +164,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             } catch (Exception e) {
                 Log.e("Database", e.getMessage());
             } finally {
-                cursor=timedb.query("timedb",null,null,null,null,null,null);
-                adapter.changeCursor(cursor);
                 timedb.endTransaction();
-                timedb.close();
-                timedb = null;
+                refresh_list();
             }
         }else{
             //エラーのダイアログを表示
