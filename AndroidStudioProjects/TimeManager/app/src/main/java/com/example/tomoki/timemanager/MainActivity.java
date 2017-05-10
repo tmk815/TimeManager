@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 Log.d("MainActivity", "データを追加しました。");
                 Toast.makeText(this, "データを追加しました", Toast.LENGTH_SHORT).show();
                 timedb.setTransactionSuccessful();
+                clearText();
             } catch (Exception e) {
                 Log.e("Database", e.getMessage());
             } finally {
@@ -174,6 +175,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                     .setPositiveButton("OK", null)
                     .show();
         }
+    }
+
+    private void clearText(){
+        dateText.setText("");
+        startTime.setText("");
+        endTime.setText("");
+        place.setText("");
+        breaktime.setValue(0);
     }
 
     //取得した年月日をTextViewに表示
