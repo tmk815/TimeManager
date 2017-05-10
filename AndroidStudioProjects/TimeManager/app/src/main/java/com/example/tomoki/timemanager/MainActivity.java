@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         databaseHelper = new DatabaseHelper(getApplicationContext());
         timedb = databaseHelper.getWritableDatabase();
-        cursor=timedb.query("timedb",null,null,null,null,null,null);
+        cursor=timedb.query("timedb",null,null,null,null,null,"date");
         cursor.moveToFirst();
 
         adapter = new SimpleCursorAdapter(this, R.layout.item, cursor, new String[]{
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     public void refresh_list(){
-        cursor=timedb.query("timedb",null,null,null,null,null,null);
+        cursor=timedb.query("timedb",null,null,null,null,null,"date");
         adapter.changeCursor(cursor);
         timedb.close();
         timedb=null;
@@ -183,6 +183,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         endTime.setText("");
         place.setText("");
         breaktime.setValue(0);
+        dateflag=false;
+        stimeflag=false;
+        etimeflag=false;
     }
 
     //取得した年月日をTextViewに表示
