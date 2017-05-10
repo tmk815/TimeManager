@@ -2,10 +2,8 @@ package com.example.tomoki.timemanager;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -32,12 +30,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private TextView startTime,endTime;
     private NumberPicker breaktime;
     private EditText place;
-    public static ListView timelistView;
+    public ListView timelistView;
     private int text;
-    public static SQLiteDatabase timedb;
-    private DatabaseHelper databaseHelper;
-    public static Cursor cursor=null;
-    public static SimpleCursorAdapter adapter;
+    public SQLiteDatabase timedb;
+    public DatabaseHelper databaseHelper;
+    public Cursor cursor=null;
+    public SimpleCursorAdapter adapter;
     private Date s_time_date,e_time_date;
     private long result;
     boolean dateflag=false,stimeflag=false,etimeflag=false;
@@ -88,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     }
 
+    //ダイアログの表示と処理
     public void Dialog(final String currentId){
         CharSequence[] items={"削除","編集","閉じる"};
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
@@ -186,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     }
 
-    //DatePiclerDialogの表示
+    //DatePickerDialogの表示
     public void showDatePickerDialog(View v){
         DialogFragment newFragment=new DatePick();
         newFragment.show(getSupportFragmentManager(),"datePicker");
