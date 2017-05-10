@@ -30,12 +30,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private TextView startTime,endTime;
     private NumberPicker breaktime;
     private EditText place;
-    public ListView timelistView;
+    private ListView timelistView;
     private int text;
-    public SQLiteDatabase timedb;
-    public DatabaseHelper databaseHelper;
-    public Cursor cursor=null;
-    public SimpleCursorAdapter adapter;
+    private SQLiteDatabase timedb;
+    private DatabaseHelper databaseHelper;
+    private Cursor cursor=null;
+    private SimpleCursorAdapter adapter;
     private Date s_time_date,e_time_date;
     private long result;
     boolean dateflag=false,stimeflag=false,etimeflag=false;
