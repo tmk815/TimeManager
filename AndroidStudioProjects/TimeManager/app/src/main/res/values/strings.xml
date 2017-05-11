@@ -7,4 +7,7 @@
     <string name="breaktime">休憩時間</string>
     <string name="min">分</string>
     <string name="place">勤務地</string>
+    <string name="spinnertext">月の労働時間</string>
+    <string name="spinneryear">年</string>
+    <string name="spinnermonth">月</string>
 </resources>
