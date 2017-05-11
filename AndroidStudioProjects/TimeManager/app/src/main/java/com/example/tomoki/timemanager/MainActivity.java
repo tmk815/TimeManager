@@ -101,11 +101,13 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                                 timedb = databaseHelper.getWritableDatabase();
                                 deletedb.delete("timedb","_id = "+currentId,null);
                                 refresh_list();
+                                break;
                         }
                     }
                 }).show();
     }
 
+    //ListViewの更新
     public void refresh_list(){
         cursor=timedb.query("timedb",null,null,null,null,null,"date");
         adapter.changeCursor(cursor);
