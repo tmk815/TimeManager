@@ -36,11 +36,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private int text;
     private SQLiteDatabase timedb;
     private DatabaseHelper databaseHelper;
-    private Cursor cursor=null,year_cursor=null;
+    private Cursor cursor=null,year_cursor=null,month_cursor=null;
     private SimpleCursorAdapter adapter;
     private Date s_time_date,e_time_date;
     private long result;
-    private ArrayAdapter<String> spinner_adapter;
+    private ArrayAdapter<String> spinner_adapter_year,spinner_adapter_date;
     boolean dateflag=false,stimeflag=false,etimeflag=false;
 
     private static final int ID = 0;
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         databaseHelper = new DatabaseHelper(getApplicationContext());
         timedb = databaseHelper.getWritableDatabase();
-        cursor=timedb.query("timedb",null,null,null,null,null,"date");
+        cursor=timedb.query("timedb",null,null,null,null,null,"yearmonthdate");
         cursor.moveToFirst();
 
         adapter = new SimpleCursorAdapter(this, R.layout.item, cursor, new String[]{
@@ -71,19 +71,53 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         timelistView.setAdapter(adapter);
 
 
-        spinner_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
-        spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Spinnerの設定
+        spinner_adapter_year = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
+        spinner_adapter_year.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner_adapter_date = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
+        spinner_adapter_date.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         // アイテムを追加します
         year_cursor=timedb.query(true,"timedb",null,null,null,"year",null,"year",null);
         while (year_cursor.moveToNext()) {
             String year = year_cursor.getString(1);
-            spinner_adapter.add(year);
+            spinner_adapter_year.add(year);
         }
 
-        Spinner spinner = (Spinner) findViewById(R.id.year_spinner);
+        Spinner spinner_year = (Spinner) findViewById(R.id.year_spinner);
         // アダプターを設定します
-        spinner.setAdapter(spinner_adapter);
-        year_cursor=null;
+        spinner_year.setAdapter(spinner_adapter_year);
+        //year_cursor=null;
+
+        spinner_year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,int position, long id) {
+                Spinner spinner = (Spinner) parent;
+                // 選択されたアイテムを取得します
+                String item = (String) spinner.getSelectedItem();
+                //Spinnerの設定
+                // アイテムを追加します
+                spinner_adapter_date.clear();
+                timedb = databaseHelper.getWritableDatabase();
+                month_cursor = timedb.query(true, "timedb", null, "year = " + item, null, "month", null, "month",null);
+                while (month_cursor.moveToNext()) {
+                    String month = month_cursor.getString(2);
+                    spinner_adapter_date.add(month);
+                }
+
+                Spinner spinner_month = (Spinner) findViewById(R.id.month_spinner);
+                // アダプターを設定します
+                spinner_month.setAdapter(spinner_adapter_date);
+                timedb.close();
+                timedb = null;
+            }
+
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
 
 
         //ListViewのクリック時処理
@@ -107,18 +141,17 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     public void SpinnerRefresh(){
         timedb = databaseHelper.getWritableDatabase();
-        spinner_adapter.clear();
+        spinner_adapter_year.clear();
         year_cursor=timedb.query(true,"timedb",null,null,null,"year",null,"year",null);
         while (year_cursor.moveToNext()) {
             String year = year_cursor.getString(1);
-            spinner_adapter.add(year);
+            spinner_adapter_year.add(year);
         }
-
-        Spinner spinner = (Spinner) findViewById(R.id.year_spinner);
-        // アダプターを設定します
-        spinner.setAdapter(spinner_adapter);
         timedb.close();
         timedb=null;
+        Spinner spinner = (Spinner) findViewById(R.id.year_spinner);
+        // アダプターを設定します
+        spinner.setAdapter(spinner_adapter_year);
     }
 
     //ダイアログの表示と処理
@@ -166,7 +199,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 int result=Integer.parseInt(cursor.getString(columnIndex));
                 int time=result/60;
                 int minute=result%60;
-                id.setText("勤務時間："+time+"時間"+minute+"分");
+                //id.setText("勤務時間："+time+"時間"+minute+"分");
+                id.setText(String.format("勤務時間：%02d時間%02d分",time,minute));
                 return true;
             default:
                 break;
@@ -206,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 values.put("endtime", endTime.getText().toString());
                 values.put("breaktime", String.valueOf(breaktime.getValue()));
                 values.put("result", result);
+                values.put("yearmonthdate",dateText.getText().toString());
                 values.put("place",place.getText().toString());
                 timedb.insert("timedb", null, values);
                 Log.d("MainActivity", "データを追加しました。");
