@@ -14,10 +14,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.NumberPicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private int text;
     private SQLiteDatabase timedb;
     private DatabaseHelper databaseHelper;
-    private Cursor cursor=null;
+    private Cursor cursor=null,year_cursor=null;
     private SimpleCursorAdapter adapter;
     private Date s_time_date,e_time_date;
     private long result;
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     private static final int ID = 0;
     private static final int DATE = 1;
-    private static final int RESULT = 5;
+    private static final int RESULT = 7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +65,24 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         cursor.moveToFirst();
 
         adapter = new SimpleCursorAdapter(this, R.layout.item, cursor, new String[]{
-                "date", "result"}, new int[]{R.id.listdate, R.id.listtime}, 0);
+                "year", "result"}, new int[]{R.id.listdate, R.id.listtime}, 0);
         adapter.setViewBinder(this);
         timelistView.setAdapter(adapter);
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // アイテムを追加します
+        year_cursor=timedb.query(true,"timedb",null,null,null,"year",null,"year",null);
+        while (year_cursor.moveToNext()) {
+            String year = year_cursor.getString(1);
+            adapter.add(year);
+        }
+
+        Spinner spinner = (Spinner) findViewById(R.id.year_spinner);
+        // アダプターを設定します
+        spinner.setAdapter(adapter);
+
 
         //ListViewのクリック時処理
         timelistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -89,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     //ダイアログの表示と処理
     public void Dialog(final String currentId){
         CharSequence[] items={"削除","編集","閉じる"};
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setTitle(currentId+"番の操作");
         builder.setItems(items,
                 new DialogInterface.OnClickListener() {
@@ -101,6 +118,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                                 timedb = databaseHelper.getWritableDatabase();
                                 deletedb.delete("timedb","_id = "+currentId,null);
                                 refresh_list();
+                                break;
+                            case 2:
+
                                 break;
                         }
                     }
@@ -118,6 +138,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     //指定した書式でListViewにデータを挿入
     public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
         switch (columnIndex) {
+            case DATE:
+                TextView date = (TextView) view;
+                date.setText(cursor.getString(1)+"-"+cursor.getString(2)+"-"+cursor.getString(3));
+                return true;
             case RESULT:
                 TextView id = (TextView) view;
                 int result=Integer.parseInt(cursor.getString(columnIndex));
@@ -130,6 +154,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         }
         return false;
     }
+
+
 
     //DBへの書き込み
     public void addData(View v){
@@ -151,8 +177,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                     result += 24 * 60;
                 }
                 Log.d("result", String.valueOf(result));
+                String[] year=dateText.getText().toString().split("-");
                 ContentValues values = new ContentValues();
-                values.put("date", dateText.getText().toString());
+                values.put("year",year[0]);
+                values.put("month",year[1]);
+                values.put("date",year[2]);
+                //values.put("date", dateText.getText().toString());
                 values.put("starttime", startTime.getText().toString());
                 values.put("endtime", endTime.getText().toString());
                 values.put("breaktime", String.valueOf(breaktime.getValue()));
