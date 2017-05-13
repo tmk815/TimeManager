@@ -30,11 +30,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     private TextView dateText;
     private TextView startTime,endTime;
+    private TextView total_result;
     private NumberPicker breaktime;
     private EditText place;
     private ListView timelistView;
     //private Spinner spinner_month;
-    private int text;
+    private int text,total;
     private SQLiteDatabase timedb;
     private DatabaseHelper databaseHelper;
     private Cursor cursor=null,year_cursor=null,month_cursor=null,listcursor=null;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         breaktime = (NumberPicker) findViewById(R.id.breaktime);
         place=(EditText)findViewById(R.id.place);
         timelistView = (ListView) findViewById(R.id.list);
+        total_result=(TextView)findViewById(R.id.total_result);
         breaktime.setMinValue(0);
         breaktime.setMaxValue(150);
 
@@ -135,11 +137,18 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 listcursor = timedb.query(true, "timedb", null, "year = " + spinnerYearItem + " and month = '" + spinnerMonthItem + "'", null, null, null,"date DESC",null);
                 //listcursor = timedb.query(true, "timedb", null, "date = '01'", null, null, null,"month DESC",null);
                 adapter.changeCursor(listcursor);
+                total=0;
+                listcursor.moveToFirst();
+                for(int i = 0; i < listcursor.getCount(); i++){
+                    total = total + listcursor.getInt(7);
+                    listcursor.moveToNext();
+                }
+                total_result.setText("総労働時間："+total/60+"時間"+total%60+"分");
                 timedb.close();
                 timedb=null;
 
                 Toast.makeText(getApplicationContext(),spinnerMonthItem,Toast.LENGTH_SHORT);
-                Log.d("SPinner",String.valueOf(listcursor.getCount()));
+                Log.d("Spinner",String.valueOf(listcursor.getCount()));
 
 
             }
@@ -186,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     //ダイアログの表示と処理
     public void Dialog(final String currentId){
-        CharSequence[] items={"削除","編集","閉じる"};
+        CharSequence[] items={"削除","閉じる"};
         final AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setTitle(currentId+"番の操作");
         builder.setItems(items,
@@ -214,6 +223,13 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         //cursor=timedb.query("timedb",null,null,null,null,null,"year DESC,month DESC,date DESC");
         listcursor=timedb.query("timedb",null,"year = " + spinnerYearItem + " and month = '" + spinnerMonthItem + "'",null,null,null,"year DESC,month DESC,date DESC");
         adapter.changeCursor(listcursor);
+        total=0;
+        listcursor.moveToFirst();
+        for(int i = 0; i < listcursor.getCount(); i++){
+            total = total + listcursor.getInt(7);
+            listcursor.moveToNext();
+        }
+        total_result.setText("総労働時間："+total/60+"時間"+total%60+"分");
         timedb.close();
         timedb=null;
     }
