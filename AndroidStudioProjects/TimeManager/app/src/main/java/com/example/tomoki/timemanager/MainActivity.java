@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private NumberPicker breaktime;
     private EditText place;
     private ListView timelistView;
-    //private Spinner spinner_month;
     private int text,total;
     private SQLiteDatabase timedb;
     private DatabaseHelper databaseHelper;
@@ -46,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     boolean dateflag=false,stimeflag=false,etimeflag=false;
     private String spinnerYearItem,spinnerMonthItem;
 
-    private static final int ID = 0;
     private static final int DATE = 1;
     private static final int RESULT = 7;
 
@@ -112,7 +110,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                     spinner_adapter_date.add(month);
                 }
 
-                //spinner_month = (Spinner) findViewById(R.id.month_spinner);
                 // アダプターを設定します
                 spinner_month.setAdapter(spinner_adapter_date);
                 timedb.close();
@@ -135,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
                 timedb = databaseHelper.getWritableDatabase();
                 listcursor = timedb.query(true, "timedb", null, "year = " + spinnerYearItem + " and month = '" + spinnerMonthItem + "'", null, null, null,"date DESC",null);
-                //listcursor = timedb.query(true, "timedb", null, "date = '01'", null, null, null,"month DESC",null);
                 adapter.changeCursor(listcursor);
                 total=0;
                 listcursor.moveToFirst();
@@ -220,7 +216,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     //ListViewの更新
     public void refresh_list(){
-        //cursor=timedb.query("timedb",null,null,null,null,null,"year DESC,month DESC,date DESC");
         listcursor=timedb.query("timedb",null,"year = " + spinnerYearItem + " and month = '" + spinnerMonthItem + "'",null,null,null,"year DESC,month DESC,date DESC");
         adapter.changeCursor(listcursor);
         total=0;
@@ -272,10 +267,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
                 long dateTimeTo = s_time_date.getTime();
                 long dateTimeFrom = e_time_date.getTime();
-                result = (dateTimeFrom - dateTimeTo) / (1000 * 60) - breaktime.getValue();
+                result = (dateTimeFrom - dateTimeTo) / (1000 * 60);
                 if (result < 0) {
                     result += 24 * 60;
                 }
+                result = result - breaktime.getValue();
                 Log.d("result", String.valueOf(result));
                 String[] year=dateText.getText().toString().split("-");
                 ContentValues values = new ContentValues();
