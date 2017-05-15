@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 int time=result/60;
                 int minute=result%60;
                 //id.setText("勤務時間："+time+"時間"+minute+"分");
-                id.setText(String.format("勤務時間：%02d時間%02d分",time,minute));
+                id.setText(String.format("%d時間%02d分",time,minute));
                 return true;
             default:
                 break;
