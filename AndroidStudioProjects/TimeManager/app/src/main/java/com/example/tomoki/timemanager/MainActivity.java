@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -89,13 +90,17 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             spinner_adapter_year.add(year);
         }
 
-        Spinner spinner_year = (Spinner) findViewById(R.id.year_spinner);
-        final Spinner spinner_month=(Spinner)findViewById(R.id.month_spinner);
+         Spinner spinner_year = (Spinner) findViewById(R.id.year_spinner);
+         final Spinner spinner_month=(Spinner)findViewById(R.id.month_spinner);
         // アダプターを設定します
         spinner_year.setAdapter(spinner_adapter_year);
+
+        spinner_month.setSelection(3);
+        spinner_year.setSelection(0);
         //year_cursor=null;
 
         //年選択のSpinnerのタップ時処理
+
         spinner_year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,int position, long id) {
@@ -176,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     }
 
-    public void SpinnerRefresh(){
+    public void SpinnerRefresh(String yitem,String mitem){
         timedb = databaseHelper.getWritableDatabase();
         spinner_adapter_year.clear();
         year_cursor=timedb.query(true,"timedb",null,null,null,"year",null,"year DESC",null);
@@ -187,9 +192,34 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         timedb.close();
         timedb=null;
         Spinner spinner = (Spinner) findViewById(R.id.year_spinner);
+        Spinner mspinner=(Spinner)findViewById(R.id.month_spinner);
         // アダプターを設定します
         spinner.setAdapter(spinner_adapter_year);
+        //setSelection(spinner,mspinner,yitem,mitem);
     }
+
+    /*public void setSelection(Spinner yearSpinner,Spinner monthSpinner, String yearItem,String monthItem) {
+        SpinnerAdapter yearAdapter = yearSpinner.getAdapter();
+        SpinnerAdapter monthAdapter = monthSpinner.getAdapter();
+        int yearindex = 0;
+        int monthindex = 0;
+        for (int i = 0; i < yearAdapter.getCount(); i++) {
+            Log.d("うううううう"+yearAdapter.getItem(i).toString(),yearItem);
+            if (yearAdapter.getItem(i).toString().equals(yearItem)) {
+                yearindex = i;
+                break;
+            }
+        }
+        for (int j = 0; j < monthAdapter.getCount(); j++) {
+            Log.d("えええええ"+monthAdapter.getItem(j).toString(),monthItem);
+            if (monthAdapter.getItem(j).toString().equals(monthItem)) {
+                monthindex = j;
+                break;
+            }
+        }
+        yearSpinner.setSelection(yearindex,false);
+        monthSpinner.setSelection(monthindex,false);
+    }*/
 
     //ダイアログの表示と処理
     public void Dialog(final String currentId){
@@ -280,7 +310,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 values.put("year",year[0]);
                 values.put("month",year[1]);
                 values.put("date",year[2]);
-                //values.put("date", dateText.getText().toString());
                 values.put("starttime", startTime.getText().toString());
                 values.put("endtime", endTime.getText().toString());
                 values.put("breaktime", String.valueOf(breaktime.getValue()));
@@ -297,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             } finally {
                 timedb.endTransaction();
                 refresh_list();
-                SpinnerRefresh();
+                SpinnerRefresh(spinnerYearItem,spinnerMonthItem);
             }
         }else{
             //エラーのダイアログを表示
