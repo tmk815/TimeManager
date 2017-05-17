@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <ListPreference
-        android:key="end_date"
-        android:title="締め日"
+
+    <PreferenceCategory
+        android:layout="@layout/notice_layout">
+    </PreferenceCategory>
+
+    <EditTextPreference
+        android:key="edittext_preference"
+        android:title="@string/end_date"
+        android:summary="@string/end_date_description"
         android:dialogTitle="@string/end_date" />
+
+    <!--<PreferenceScreen
+        android:title="Value Check"
+        android:summary="Move to Value Check Screen">
+        <intent android:action="android.intent.action.VIEW"
+            android:targetPackage="org.jpn.techbooster.PreferenceSample"
+            android:targetClass="org.jpn.techbooster.PreferenceSample.ValueCheck" />
+    </PreferenceScreen>-->
+
 </PreferenceScreen>
