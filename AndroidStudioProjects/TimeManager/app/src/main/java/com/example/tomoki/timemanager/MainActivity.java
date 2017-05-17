@@ -95,12 +95,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         // アダプターを設定します
         spinner_year.setAdapter(spinner_adapter_year);
 
-        spinner_month.setSelection(3);
-        spinner_year.setSelection(0);
-        //year_cursor=null;
 
         //年選択のSpinnerのタップ時処理
-
         spinner_year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,int position, long id) {
