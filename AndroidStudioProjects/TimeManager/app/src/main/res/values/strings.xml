@@ -12,5 +12,5 @@
     <string name="spinnermonth">月</string>
     <string name="end_date">締め日</string>
     <string name="end_date_description">毎月の締め日を設定</string>
-    <string name="setting_title">設定画面</string>
+    <string name="setting_title">Setting</string>
 </resources>
