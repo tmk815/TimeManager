@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     //ダイアログの表示と処理
     public void Dialog(final String currentId) {
-        CharSequence[] items = {"削除", "閉じる"};
+        CharSequence[] items = {"削除","編集", "閉じる"};
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(currentId + "番の操作");
         builder.setItems(items,
@@ -234,6 +234,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                                 deletedb.delete("timedb", "_id = " + currentId, null);
                                 refresh_list();
                                 //SpinnerRefresh();
+                                break;
+                            case 1:
+                                //編集画面への移行処理
                                 break;
                             case 2:
 
