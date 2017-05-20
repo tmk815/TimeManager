@@ -6,8 +6,10 @@ import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private ArrayAdapter<String> spinner_adapter_year, spinner_adapter_date;
     boolean dateflag = false, stimeflag = false, etimeflag = false;
     private String spinnerYearItem, spinnerMonthItem;
+    private String closingDate;
 
     private static final int DATE = 1;
     private static final int RESULT = 7;
@@ -56,6 +59,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+        closingDate = sharedPreferences.getString("closeday","31");
+        Log.d("Preference",closingDate);
+
         dateText = (TextView) findViewById(R.id.dateText);
         startTime = (TextView) findViewById(R.id.startTimeText);
         endTime = (TextView) findViewById(R.id.endTimeText);
@@ -176,6 +184,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             }
         });
 
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+        closingDate = sharedPreferences.getString("closeday","31");
+        Log.d("Resume",closingDate);
+        SpinnerRefresh(spinnerYearItem, spinnerMonthItem);
     }
 
     public void SpinnerRefresh(String yitem, String mitem) {
