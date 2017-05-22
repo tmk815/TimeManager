@@ -368,7 +368,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     //取得した年月日をTextViewに表示
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        //dateText.setText(String.valueOf(year)+"/"+ String.valueOf(monthOfYear+1)+"/"+String.valueOf(dayOfMonth));
         dateText.setText(String.format("%d-%02d-%02d", year, monthOfYear + 1, dayOfMonth));
         dateflag = true;
 
