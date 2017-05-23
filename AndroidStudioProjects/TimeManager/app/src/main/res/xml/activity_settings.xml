@@ -10,7 +10,7 @@
         android:title="@string/end_date"
         android:summary="@string/end_date_description"
         android:dialogTitle="@string/end_date"
-        android:inputType="number"
+        android:inputType="date"
         android:maxLength="2"/>
 
     <!--<PreferenceScreen
