@@ -254,6 +254,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                                 break;
                             case 1:
                                 //編集画面への移行処理
+
                                 break;
                             case 2:
 
