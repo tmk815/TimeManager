@@ -80,14 +80,27 @@
             </LinearLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/save"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="addData"
-        android:text="@string/save"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="144dp" />
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="addData"
+            android:text="@string/save"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="144dp"
+            android:layout_weight="1"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/option"
+            android:layout_weight="1"
+            android:onClick="setOption"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
