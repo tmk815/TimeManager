@@ -21,6 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
         </activity>
 
+        <activity android:name=".EditActivity">
+            <category android:name="android.intent.category.LAUNCHER" />
+        </activity>
+
     </application>
 
 </manifest>
