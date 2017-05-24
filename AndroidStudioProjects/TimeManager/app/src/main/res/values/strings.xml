@@ -13,4 +13,5 @@
     <string name="end_date">締め日</string>
     <string name="end_date_description">毎月の締め日を設定</string>
     <string name="setting_title">Setting</string>
+    <string name="option">詳細設定</string>
 </resources>
