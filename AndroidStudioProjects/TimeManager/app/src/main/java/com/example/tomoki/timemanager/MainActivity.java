@@ -357,7 +357,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     public void setOption(View v){
-        Intent intent=new Intent(this,EditActivity.class);
+        Intent intent=new Intent(this,Advanced.class);
         startActivity(intent);
     }
 
