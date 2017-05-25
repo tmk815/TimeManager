@@ -356,6 +356,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         }
     }
 
+    public void setOption(View v){
+        Intent intent=new Intent(this,EditActivity.class);
+        startActivity(intent);
+    }
+
     private void clearText() {
         dateText.setText("");
         startTime.setText("");
