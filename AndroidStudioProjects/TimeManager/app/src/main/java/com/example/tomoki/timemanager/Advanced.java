@@ -24,22 +24,22 @@ public class Advanced extends AppCompatActivity implements TimePickerDialog.OnTi
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        startOverTime=(TextView)findViewById(R.id.startOvertimeTimeText);
-        endOverTime = (TextView) findViewById(R.id.endOvertimeTimeText);
+        startOverTime=(TextView)findViewById(R.id.startOvertimeText);
+        endOverTime = (TextView) findViewById(R.id.endOvertimeText);
 
     }
 
     //残業開始時刻
-    public void showStartTimePickerDialog(View v) {
+    public void showStartOvertimePickerDialog(View v) {
         text = 0;
-        DialogFragment newFragment = new TimePick();
+        DialogFragment newFragment = new AdvancedTimePick();
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
     //残業終了時刻
-    public void showEndTimePickerDialog(View v) {
+    public void showEndOvertimePickerDialog(View v) {
         text = 1;
-        DialogFragment newFragment = new TimePick();
+        DialogFragment newFragment = new AdvancedTimePick();
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 

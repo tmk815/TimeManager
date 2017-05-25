@@ -22,12 +22,12 @@
             android:background="@drawable/shape">
 
             <TextView
-                android:id="@+id/startOvertimeTimeText"
+                android:id="@+id/startOvertimeText"
                 android:textSize="40sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/defaulttime_text"
-                android:onClick="showStartOvertimeTimePickerDialog" />
+                android:onClick="showStartOvertimePickerDialog" />
 
             <TextView
                 android:textSize="40sp"
@@ -36,12 +36,12 @@
                 android:text="@string/wavyline" />
 
             <TextView
-                android:id="@+id/endOvertimeTimeText"
+                android:id="@+id/endOvertimeText"
                 android:textSize="40sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/defaulttime_text"
-                android:onClick="showEndOvertimeTimePickerDialog" />
+                android:onClick="showEndOvertimePickerDialog" />
 
         </LinearLayout>
     </LinearLayout>
