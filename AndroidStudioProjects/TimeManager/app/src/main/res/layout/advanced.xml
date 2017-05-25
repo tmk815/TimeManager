@@ -1,6 +1,47 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.tomoki.timemanager.Advanced">
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/TitleText"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/overtime"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:background="@drawable/shape">
+
+            <TextView
+                android:id="@+id/startOvertimeTimeText"
+                android:textSize="40sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/defaulttime_text"
+                android:onClick="showStartOvertimeTimePickerDialog" />
+
+            <TextView
+                android:textSize="40sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wavyline" />
+
+            <TextView
+                android:id="@+id/endOvertimeTimeText"
+                android:textSize="40sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/defaulttime_text"
+                android:onClick="showEndOvertimeTimePickerDialog" />
+
+        </LinearLayout>
+    </LinearLayout>
