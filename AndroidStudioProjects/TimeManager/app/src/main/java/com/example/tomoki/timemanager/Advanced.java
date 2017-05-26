@@ -1,6 +1,8 @@
 package com.example.tomoki.timemanager;
 
+import android.app.Activity;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
@@ -57,6 +59,11 @@ public class Advanced extends AppCompatActivity implements TimePickerDialog.OnTi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                Intent intent = new Intent();
+                intent.putExtra("sotime", startOverTime.getText().toString());
+                intent.putExtra("eotime", endOverTime.getText().toString());
+                setResult(Activity.RESULT_OK, intent);
+
                 finish();
                 return true;
         }
