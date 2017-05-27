@@ -1,5 +1,6 @@
 package com.example.tomoki.timemanager;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     boolean dateflag = false, stimeflag = false, etimeflag = false;
     private String spinnerYearItem, spinnerMonthItem;
     private String closingDate;
+    private String sotime="00:00",eotime="00:00";
 
     private static final int DATE = 1;
     private static final int RESULT = 7;
@@ -358,7 +360,26 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     public void setOption(View v){
         Intent intent=new Intent(this,Advanced.class);
-        startActivity(intent);
+        // 遷移先から返却されてくる際の識別コード
+        int requestCode = 1001;
+        // 返却値を考慮したActivityの起動を行う
+        startActivityForResult(intent, requestCode);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        // startActivityForResult()の際に指定した識別コードとの比較
+        if (requestCode == 1001) {
+
+            // 返却結果ステータスとの比較
+            if (resultCode == Activity.RESULT_OK) {
+
+                // 返却されてきたintentから値を取り出す
+                sotime = intent.getStringExtra("sotime");
+                eotime = intent.getStringExtra("eotime");
+                Log.d("sotime",sotime);
+                Log.d("eotime", eotime);
+            }
+        }
     }
 
     private void clearText() {
@@ -377,7 +398,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         dateText.setText(String.format("%d-%02d-%02d", year, monthOfYear + 1, dayOfMonth));
         dateflag = true;
-
     }
 
     //DatePickerDialogの表示
