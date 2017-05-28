@@ -15,4 +15,5 @@
     <string name="setting_title">Setting</string>
     <string name="option">詳細設定</string>
     <string name="overtime">残業時間</string>
+    <string name="remarks">備考</string>
 </resources>
