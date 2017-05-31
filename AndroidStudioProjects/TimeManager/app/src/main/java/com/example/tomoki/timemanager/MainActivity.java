@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private DatabaseHelper databaseHelper;
     private Cursor cursor = null, year_cursor = null, month_cursor = null, listcursor = null;
     private SimpleCursorAdapter adapter;
-    private Date s_time_date, e_time_date;
-    private long result;
+    private Date s_time_date, e_time_date,over_s_time_date,over_e_time_date;
+    private long result, overtimeresult;
     private ArrayAdapter<String> spinner_adapter_year, spinner_adapter_date;
     boolean dateflag = false, stimeflag = false, etimeflag = false;
     private String spinnerYearItem, spinnerMonthItem;
@@ -310,6 +310,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             timedb = databaseHelper.getWritableDatabase();
             timedb.beginTransaction();
             try {
+                //勤務時間の計算
                 String s_time = startTime.getText().toString();
                 Log.d("time", s_time);
                 String e_time = endTime.getText().toString();
@@ -325,6 +326,18 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 }
                 result = result - breaktime.getValue();
                 Log.d("result", String.valueOf(result));
+
+                //残業時間の計算
+                over_s_time_date=sdf.parse(sotime);
+                over_e_time_date=sdf.parse(eotime);
+                long overDateTimeTo = over_s_time_date.getTime();
+                long overDateTimeFrom = over_e_time_date.getTime();
+                overtimeresult = (overDateTimeFrom - overDateTimeTo) / (1000 * 60);
+                if (overtimeresult < 0) {
+                    overtimeresult += 24 * 60;
+                }
+                Log.d("overtimeresult",String.valueOf(overtimeresult));
+
                 String[] year = dateText.getText().toString().split("-");
                 ContentValues values = new ContentValues();
                 values.put("year", year[0]);
