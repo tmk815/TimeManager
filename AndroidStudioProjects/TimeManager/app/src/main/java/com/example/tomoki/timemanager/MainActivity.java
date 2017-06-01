@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     boolean dateflag = false, stimeflag = false, etimeflag = false;
     private String spinnerYearItem, spinnerMonthItem;
     private String closingDate;
-    private String sotime="",eotime="";
+    private String sotime="",eotime="", remarks="";
 
     private static final int DATE = 1;
     private static final int RESULT = 7;
@@ -352,6 +352,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 values.put("startovertime",sotime);
                 values.put("endovertime",eotime);
                 values.put("overresult",overtimeresult);
+                values.put("remarks", remarks);
                 timedb.insert("timedb", null, values);
                 Log.d("MainActivity", "データを追加しました。");
                 Toast.makeText(this, "データを追加しました", Toast.LENGTH_SHORT).show();
@@ -392,8 +393,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 // 返却されてきたintentから値を取り出す
                 sotime = intent.getStringExtra("sotime");
                 eotime = intent.getStringExtra("eotime");
+                remarks = intent.getStringExtra("remarks");
                 Log.d("sotime",sotime);
                 Log.d("eotime", eotime);
+                Log.d("remarks", remarks);
             }
         }
     }
