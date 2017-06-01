@@ -47,12 +47,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private Cursor cursor = null, year_cursor = null, month_cursor = null, listcursor = null;
     private SimpleCursorAdapter adapter;
     private Date s_time_date, e_time_date,over_s_time_date,over_e_time_date;
-    private long result, overtimeresult;
+    private long result, overtimeresult=0;
     private ArrayAdapter<String> spinner_adapter_year, spinner_adapter_date;
     boolean dateflag = false, stimeflag = false, etimeflag = false;
     private String spinnerYearItem, spinnerMonthItem;
     private String closingDate;
-    private String sotime="00:00",eotime="00:00";
+    private String sotime="",eotime="";
 
     private static final int DATE = 1;
     private static final int RESULT = 7;
@@ -349,6 +349,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 values.put("result", result);
                 values.put("yearmonthdate", dateText.getText().toString());
                 values.put("place", place.getText().toString());
+                values.put("startovertime",sotime);
+                values.put("endovertime",eotime);
+                values.put("overresult",overtimeresult);
                 timedb.insert("timedb", null, values);
                 Log.d("MainActivity", "データを追加しました。");
                 Toast.makeText(this, "データを追加しました", Toast.LENGTH_SHORT).show();
