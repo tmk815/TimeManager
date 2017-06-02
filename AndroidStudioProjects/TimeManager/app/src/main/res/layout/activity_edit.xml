@@ -43,4 +43,40 @@
             android:onClick="showEndTimePickerDialog" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+    <EditText
+        android:id="@+id/editPlace"
+        android:layout_width="150sp"
+        android:layout_height="wrap_content"
+        android:hint="@string/place" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|right">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/breaktime" />
+
+        <NumberPicker
+            android:id="@+id/editBreakTime"
+            android:layout_width="50dp"
+            android:layout_height="70dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/min" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 </LinearLayout>
