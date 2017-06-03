@@ -27,7 +27,7 @@ public class Advanced extends AppCompatActivity implements TimePickerDialog.OnTi
         setContentView(R.layout.advanced);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("オプション");
+        setTitle("オプション");
 
         startOverTime=(TextView)findViewById(R.id.startOvertimeText);
         endOverTime = (TextView) findViewById(R.id.endOvertimeText);
