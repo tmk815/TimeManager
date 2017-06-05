@@ -17,7 +17,7 @@ public class EditActivity extends AppCompatActivity{
         setContentView(R.layout.activity_edit);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
+        setTitle("編集");
     }
 
     @Override
