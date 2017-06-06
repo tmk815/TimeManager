@@ -257,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                             case 1:
                                 //編集画面への移行処理
                                 Intent intent = new Intent(getApplicationContext(),EditActivity.class);
+                                intent.putExtra("id",currentId);
                                 startActivity(intent);
 
                                 break;
