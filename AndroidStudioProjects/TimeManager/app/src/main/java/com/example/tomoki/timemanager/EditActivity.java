@@ -51,6 +51,10 @@ public class EditActivity extends AppCompatActivity implements DatePickerDialog.
         databaseHelper = new DatabaseHelper(getApplicationContext());
         timedb = databaseHelper.getWritableDatabase();
         cursor = timedb.query("timedb", null, "_id = "+id, null, null, null, null);
+        cursor.moveToFirst();
+        editDateText.setText(cursor.getString(cursor.getColumnIndex("yearmonthdate")));
+        editsTime.setText(cursor.getString(cursor.getColumnIndex("starttime")));
+        editeTime.setText(cursor.getString(cursor.getColumnIndex("endtime")));
     }
 
     //日付修正
