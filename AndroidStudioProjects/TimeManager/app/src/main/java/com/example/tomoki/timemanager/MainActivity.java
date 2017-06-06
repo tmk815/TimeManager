@@ -188,15 +188,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     }
 
-    @Override
-    protected void onResume(){
-        super.onResume();
-        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
-        closingDate = sharedPreferences.getString("closeday","31");
-        Log.d("Resume",closingDate);
-        SpinnerRefresh(spinnerYearItem, spinnerMonthItem);
-    }
-
     public void SpinnerRefresh(String yitem, String mitem) {
         timedb = databaseHelper.getWritableDatabase();
         spinner_adapter_year.clear();
@@ -329,16 +320,18 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 result = result - breaktime.getValue();
                 Log.d("result", String.valueOf(result));
 
-                //残業時間の計算
-                over_s_time_date=sdf.parse(sotime);
-                over_e_time_date=sdf.parse(eotime);
-                long overDateTimeTo = over_s_time_date.getTime();
-                long overDateTimeFrom = over_e_time_date.getTime();
-                overtimeresult = (overDateTimeFrom - overDateTimeTo) / (1000 * 60);
-                if (overtimeresult < 0) {
-                    overtimeresult += 24 * 60;
+                if(!sotime.equals("")&&!eotime.equals("")) {
+                    //残業時間の計算
+                    over_s_time_date = sdf.parse(sotime);
+                    over_e_time_date = sdf.parse(eotime);
+                    long overDateTimeTo = over_s_time_date.getTime();
+                    long overDateTimeFrom = over_e_time_date.getTime();
+                    overtimeresult = (overDateTimeFrom - overDateTimeTo) / (1000 * 60);
+                    if (overtimeresult < 0) {
+                        overtimeresult += 24 * 60;
+                    }
+                    Log.d("overtimeresult", String.valueOf(overtimeresult));
                 }
-                Log.d("overtimeresult",String.valueOf(overtimeresult));
 
                 String[] year = dateText.getText().toString().split("-");
                 ContentValues values = new ContentValues();
@@ -382,6 +375,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         // 遷移先から返却されてくる際の識別コード
         int requestCode = 1001;
         // 返却値を考慮したActivityの起動を行う
+        intent.putExtra("sotime",sotime);
+        intent.putExtra("eotime", eotime);
+        intent.putExtra("remarks", remarks);
         startActivityForResult(intent, requestCode);
     }
 
@@ -408,6 +404,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         startTime.setText("");
         endTime.setText("");
         place.setText("");
+        sotime = "";
+        eotime = "";
+        remarks = "";
         breaktime.setValue(0);
         dateflag = false;
         stimeflag = false;
