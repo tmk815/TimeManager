@@ -21,6 +21,7 @@ public class Advanced extends AppCompatActivity implements TimePickerDialog.OnTi
     private int text;
     private TextView startOverTime, endOverTime;
     private EditText remarks;
+    private String sotime="",eotime="",remark="";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,10 +29,23 @@ public class Advanced extends AppCompatActivity implements TimePickerDialog.OnTi
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         setTitle("オプション");
+        Intent intent = getIntent();
+        sotime = intent.getStringExtra("sotime");
+        eotime = intent.getStringExtra("eotime");
+        remark = intent.getStringExtra("remarks");
 
         startOverTime=(TextView)findViewById(R.id.startOvertimeText);
         endOverTime = (TextView) findViewById(R.id.endOvertimeText);
         remarks = (EditText) findViewById(R.id.remarks);
+        if (!sotime.equals("")){
+            startOverTime.setText(sotime);
+        }
+        if (!eotime.equals("")){
+            endOverTime.setText(eotime);
+        }
+        if (!remark.equals("")){
+            remarks.setText(remark);
+        }
 
     }
 
