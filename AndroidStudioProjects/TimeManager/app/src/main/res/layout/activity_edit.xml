@@ -11,7 +11,7 @@
         android:hint="@string/date_text"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:onClick="showDatePickerDialog" />
+        android:onClick="editDatePickerDialog" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/defaulttime_text"
-            android:onClick="showStartTimePickerDialog" />
+            android:onClick="editStartTimePickerDialog" />
 
         <TextView
             android:textSize="40sp"
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/defaulttime_text"
-            android:onClick="showEndTimePickerDialog" />
+            android:onClick="editEndTimePickerDialog" />
 
     </LinearLayout>
 
