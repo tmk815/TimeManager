@@ -28,7 +28,7 @@ public class EditActivity extends AppCompatActivity implements DatePickerDialog.
     private SQLiteDatabase timedb;
     private String id;
     private int text=0;
-    private EditText editPlace, editOption;
+    private EditText editPlace,editRemarks;
     private TextView editDateText,editsTime,editeTime;
     private NumberPicker editBreakTime;
 
@@ -43,7 +43,7 @@ public class EditActivity extends AppCompatActivity implements DatePickerDialog.
         editsTime = (TextView) findViewById(R.id.editStartTimeText);
         editeTime = (TextView) findViewById(R.id.editEndTimeText);
         editPlace = (EditText) findViewById(R.id.editPlace);
-        editOption = (EditText) findViewById(R.id.editPlace);
+        editRemarks = (EditText) findViewById(R.id.editRemarks);
         editBreakTime = (NumberPicker) findViewById(R.id.editBreakTime);
         editBreakTime.setMinValue(0);
         editBreakTime.setMaxValue(150);
@@ -60,7 +60,7 @@ public class EditActivity extends AppCompatActivity implements DatePickerDialog.
         editeTime.setText(cursor.getString(cursor.getColumnIndex("endtime")));
         editPlace.setText(cursor.getString(cursor.getColumnIndex("place")));
         editBreakTime.setValue(Integer.parseInt(cursor.getString(cursor.getColumnIndex("breaktime"))));
-        editOption.setText(cursor.getString(cursor.getColumnIndex("remarks")));
+        editRemarks.setText(cursor.getString(cursor.getColumnIndex("remarks")));
     }
 
     //日付修正
