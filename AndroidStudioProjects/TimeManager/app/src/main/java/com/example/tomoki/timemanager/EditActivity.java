@@ -55,6 +55,8 @@ public class EditActivity extends AppCompatActivity implements DatePickerDialog.
         editDateText.setText(cursor.getString(cursor.getColumnIndex("yearmonthdate")));
         editsTime.setText(cursor.getString(cursor.getColumnIndex("starttime")));
         editeTime.setText(cursor.getString(cursor.getColumnIndex("endtime")));
+        editPlace.setText(cursor.getString(cursor.getColumnIndex("place")));
+        editBreakTime.setValue(Integer.parseInt(cursor.getString(cursor.getColumnIndex("breaktime"))));
     }
 
     //日付修正
