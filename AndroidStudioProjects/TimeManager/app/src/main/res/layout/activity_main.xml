@@ -90,8 +90,7 @@
             android:layout_height="wrap_content"
             android:onClick="addData"
             android:text="@string/save"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="144dp"
+            android:theme="@style/NegativeButtonStyle"
             android:layout_weight="1"/>
 
         <Button
@@ -99,6 +98,7 @@
             android:layout_height="wrap_content"
             android:text="@string/option"
             android:layout_weight="1"
+            android:theme="@style/NegativeButtonStyle"
             android:onClick="setOption"/>
     </LinearLayout>
 
