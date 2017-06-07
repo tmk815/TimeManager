@@ -8,4 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="NegativeButtonStyle" parent="Theme.AppCompat">
+        <!--ボタンの色-->
+        <item name="colorButtonNormal">#3F51B5</item>
+        <!--ボタンをプレスしている時、シークバーをプレスしている時の色-->
+        <item name="colorControlHighlight">#283593</item>
+        <!--文字をBoldにする-->
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
