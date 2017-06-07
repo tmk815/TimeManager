@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -27,7 +28,8 @@ public class EditActivity extends AppCompatActivity implements DatePickerDialog.
     private SQLiteDatabase timedb;
     private String id;
     private int text=0;
-    private TextView editDateText,editsTime,editeTime,editPlace;
+    private EditText editPlace, editOption;
+    private TextView editDateText,editsTime,editeTime;
     private NumberPicker editBreakTime;
 
     @Override
@@ -40,7 +42,8 @@ public class EditActivity extends AppCompatActivity implements DatePickerDialog.
         editDateText = (TextView) findViewById(R.id.editDateText);
         editsTime = (TextView) findViewById(R.id.editStartTimeText);
         editeTime = (TextView) findViewById(R.id.editEndTimeText);
-        editPlace = (TextView) findViewById(R.id.editPlace);
+        editPlace = (EditText) findViewById(R.id.editPlace);
+        editOption = (EditText) findViewById(R.id.editPlace);
         editBreakTime = (NumberPicker) findViewById(R.id.editBreakTime);
         editBreakTime.setMinValue(0);
         editBreakTime.setMaxValue(150);
@@ -57,6 +60,7 @@ public class EditActivity extends AppCompatActivity implements DatePickerDialog.
         editeTime.setText(cursor.getString(cursor.getColumnIndex("endtime")));
         editPlace.setText(cursor.getString(cursor.getColumnIndex("place")));
         editBreakTime.setValue(Integer.parseInt(cursor.getString(cursor.getColumnIndex("breaktime"))));
+        editOption.setText(cursor.getString(cursor.getColumnIndex("remarks")));
     }
 
     //日付修正

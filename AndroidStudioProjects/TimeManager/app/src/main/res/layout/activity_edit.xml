@@ -76,7 +76,12 @@
             android:layout_height="wrap_content"
             android:text="@string/min" />
         </LinearLayout>
-
     </LinearLayout>
+
+    <EditText
+        android:id="@+id/editRemarks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/remarks" />
 
 </LinearLayout>
