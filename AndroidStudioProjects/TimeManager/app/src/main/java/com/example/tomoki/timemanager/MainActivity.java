@@ -156,11 +156,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 total_result.setText("総労働時間：" + total / 60 + "時間" + total % 60 + "分");
                 timedb.close();
                 timedb = null;
-
-                Toast.makeText(getApplicationContext(), spinnerMonthItem, Toast.LENGTH_SHORT);
-                Log.d("Spinner", String.valueOf(listcursor.getCount()));
-
-
             }
 
             @Override
@@ -174,15 +169,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String currentId = listcursor.getString(listcursor.getColumnIndex("_id"));
                 String currentName = listcursor.getString(listcursor.getColumnIndex("place"));
-                Toast.makeText(getApplicationContext(), "id=" + currentId + ",place=" + currentName, Toast.LENGTH_SHORT).show();
+                //.makeText(getApplicationContext(), "id=" + currentId + ",place=" + currentName, Toast.LENGTH_SHORT).show();
 
                 Dialog(currentId);
-                /*Bundle bundle = new Bundle();
-                bundle.putString("id", currentId);
-                Log.d(currentId, cursor.getString(cursor.getColumnIndex("_id")));
-                DialogFragment newFragment = new ContactUsDialogFragment();
-                newFragment.setArguments(bundle);
-                newFragment.show(getSupportFragmentManager(), "Dialog");*/
             }
         });
 
