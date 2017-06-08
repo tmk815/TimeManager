@@ -84,4 +84,12 @@
         android:layout_height="wrap_content"
         android:hint="@string/remarks" />
 
+    <Button
+        android:id="@+id/updateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/update"
+        android:onClick="updateData"
+        android:theme="@style/NegativeButtonStyle"/>
+
 </LinearLayout>

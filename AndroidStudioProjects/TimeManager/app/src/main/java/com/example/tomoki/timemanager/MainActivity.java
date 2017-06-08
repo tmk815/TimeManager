@@ -236,10 +236,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                                 break;
                             case 1:
                                 //編集画面への移行処理
+                                int requestCode = 1002;
                                 Intent intent = new Intent(getApplicationContext(),EditActivity.class);
                                 intent.putExtra("id",currentId);
-                                startActivity(intent);
-
+                                startActivityForResult(intent, requestCode);
                                 break;
                             case 2:
 
@@ -251,6 +251,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     //ListViewの更新
     public void refresh_list() {
+        timedb = databaseHelper.getWritableDatabase();
         listcursor = timedb.query("timedb", null, "year = " + spinnerYearItem + " and month = '" + spinnerMonthItem + "'", null, null, null, "year DESC,month DESC,date DESC");
         adapter.changeCursor(listcursor);
         total = 0;
@@ -373,10 +374,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         // startActivityForResult()の際に指定した識別コードとの比較
         if (requestCode == 1001) {
-
             // 返却結果ステータスとの比較
             if (resultCode == Activity.RESULT_OK) {
-
                 // 返却されてきたintentから値を取り出す
                 sotime = intent.getStringExtra("sotime");
                 eotime = intent.getStringExtra("eotime");
@@ -385,6 +384,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 Log.d("eotime", eotime);
                 Log.d("remarks", remarks);
             }
+        } else if (requestCode == 1002) {
+            refresh_list();
         }
     }
 

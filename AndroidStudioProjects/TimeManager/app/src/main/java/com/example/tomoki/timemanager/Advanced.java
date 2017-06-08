@@ -82,7 +82,6 @@ public class Advanced extends AppCompatActivity implements TimePickerDialog.OnTi
         intent.putExtra("eotime", endOverTime.getText().toString());
         intent.putExtra("remarks", remarks.getText().toString());
         setResult(Activity.RESULT_OK, intent);
-
         finish();
     }
 
