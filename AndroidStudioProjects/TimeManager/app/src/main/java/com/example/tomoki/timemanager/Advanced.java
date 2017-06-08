@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -22,6 +23,7 @@ public class Advanced extends AppCompatActivity implements TimePickerDialog.OnTi
     private TextView startOverTime, endOverTime;
     private EditText remarks;
     private String sotime="",eotime="",remark="";
+    private Button submit;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,7 @@ public class Advanced extends AppCompatActivity implements TimePickerDialog.OnTi
         startOverTime=(TextView)findViewById(R.id.startOvertimeText);
         endOverTime = (TextView) findViewById(R.id.endOvertimeText);
         remarks = (EditText) findViewById(R.id.remarks);
+        submit = (Button) findViewById(R.id.submit);
         if (!sotime.equals("")){
             startOverTime.setText(sotime);
         }
@@ -73,16 +76,20 @@ public class Advanced extends AppCompatActivity implements TimePickerDialog.OnTi
         }
     }
 
+    public void submit(View v){
+        Intent intent = new Intent();
+        intent.putExtra("sotime", startOverTime.getText().toString());
+        intent.putExtra("eotime", endOverTime.getText().toString());
+        intent.putExtra("remarks", remarks.getText().toString());
+        setResult(Activity.RESULT_OK, intent);
+
+        finish();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent();
-                intent.putExtra("sotime", startOverTime.getText().toString());
-                intent.putExtra("eotime", endOverTime.getText().toString());
-                intent.putExtra("remarks", remarks.getText().toString());
-                setResult(Activity.RESULT_OK, intent);
-
                 finish();
                 return true;
         }
