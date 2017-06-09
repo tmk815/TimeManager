@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,8 +21,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private String spinnerYearItem, spinnerMonthItem;
     private String closingDate;
     private String sotime="",eotime="", remarks="";
+    private Button save;
 
     private static final int DATE = 1;
     private static final int RESULT = 7;
@@ -74,8 +78,23 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         place = (EditText) findViewById(R.id.place);
         timelistView = (ListView) findViewById(R.id.list);
         total_result = (TextView) findViewById(R.id.total_result);
+        save = (Button) findViewById(R.id.save);
         breaktime.setMinValue(0);
         breaktime.setMaxValue(150);
+
+        place.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                // EditTextのフォーカスが外れた場合
+                if (hasFocus == false) {
+                    // ソフトキーボードを非表示にする
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }
+        });
+
 
         databaseHelper = new DatabaseHelper(getApplicationContext());
         timedb = databaseHelper.getWritableDatabase();
@@ -220,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     //ダイアログの表示と処理
     public void Dialog(final String currentId) {
-        CharSequence[] items = {"削除","編集", "閉じる"};
+        CharSequence[] items = {"削除","詳細/編集", "閉じる"};
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(currentId + "番の操作");
         builder.setItems(items,
@@ -233,6 +252,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                                 timedb = databaseHelper.getWritableDatabase();
                                 deletedb.delete("timedb", "_id = " + currentId, null);
                                 refresh_list();
+                                Toast.makeText(getApplicationContext(), "削除しました",Toast.LENGTH_SHORT).show();
                                 //SpinnerRefresh();
                                 break;
                             case 1:
@@ -286,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 int overresult = Integer.parseInt(cursor.getString(columnIndex));
                 int overtime = overresult / 60;
                 int overminute = overresult % 60;
-                overtimeresult.setText(String.format("%d時間%02d分", overtime, overminute));
+                overtimeresult.setText(String.format("(残)%d時間%02d分", overtime, overminute));
                 return true;
             default:
                 break;
@@ -297,6 +317,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     //DBへの書き込み
     public void addData(View v) {
+        save.setFocusable(true);
+        save.setFocusableInTouchMode(true);
+        save.requestFocus();
         if (dateflag == true && stimeflag == true && etimeflag == true) {
             timedb = databaseHelper.getWritableDatabase();
             timedb.beginTransaction();
