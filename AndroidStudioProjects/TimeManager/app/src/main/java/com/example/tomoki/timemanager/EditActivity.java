@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.StringTokenizer;
 
 /**
  * Created by tomoki on 2017/05/24.
@@ -32,13 +33,13 @@ public class EditActivity extends AppCompatActivity implements DatePickerDialog.
     private Cursor cursor=null;
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase timedb;
-    private String id;
+    private String id, sotime = "", eotime = "";
     private int text=0;
     private EditText editPlace,editRemarks;
-    private TextView editDateText,editsTime,editeTime;
+    private TextView editDateText,editsTime,editeTime, editStartOvertimeText, editEndOvertimeText;
     private NumberPicker editBreakTime;
-    private Date s_time_date, e_time_date;
-    private long result;
+    private Date s_time_date, e_time_date, over_s_time_date, over_e_time_date;
+    private long result, overtimeresult = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,8 @@ public class EditActivity extends AppCompatActivity implements DatePickerDialog.
         editDateText = (TextView) findViewById(R.id.editDateText);
         editsTime = (TextView) findViewById(R.id.editStartTimeText);
         editeTime = (TextView) findViewById(R.id.editEndTimeText);
+        editStartOvertimeText = (TextView) findViewById(R.id.editStartOvertimeText);
+        editEndOvertimeText = (TextView) findViewById(R.id.editEndOvertimeText);
         editPlace = (EditText) findViewById(R.id.editPlace);
         editRemarks = (EditText) findViewById(R.id.editRemarks);
         editBreakTime = (NumberPicker) findViewById(R.id.editBreakTime);
@@ -68,6 +71,8 @@ public class EditActivity extends AppCompatActivity implements DatePickerDialog.
         editeTime.setText(cursor.getString(cursor.getColumnIndex("endtime")));
         editPlace.setText(cursor.getString(cursor.getColumnIndex("place")));
         editBreakTime.setValue(Integer.parseInt(cursor.getString(cursor.getColumnIndex("breaktime"))));
+        editStartOvertimeText.setText(cursor.getString(cursor.getColumnIndex("startovertime")));
+        editEndOvertimeText.setText(cursor.getString(cursor.getColumnIndex("endovertime")));
         editRemarks.setText(cursor.getString(cursor.getColumnIndex("remarks")));
     }
 
@@ -90,13 +95,31 @@ public class EditActivity extends AppCompatActivity implements DatePickerDialog.
         newFragment.show(getSupportFragmentManager(), "editTimePicker");
     }
 
+    //残業開始時刻修正
+    public void EditStartOvertimePickerDialog(View v) {
+        text = 2;
+        DialogFragment newFragment = new EditTimePick();
+        newFragment.show(getSupportFragmentManager(), "editTimePicker");
+    }
+
+    //残業終了時刻修正
+    public void EditEndOvertimePickerDialog(View v) {
+        text = 3;
+        DialogFragment newFragment = new EditTimePick();
+        newFragment.show(getSupportFragmentManager(), "editTimePicker");
+    }
+
     //修正後の時刻をTextViewに表示
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         if (text == 0) {
             editsTime.setText(String.format("%02d:%02d", hourOfDay, minute));
-        } else {
+        } else if (text == 1) {
             editeTime.setText(String.format("%02d:%02d", hourOfDay, minute));
+        } else if (text == 2) {
+            editStartOvertimeText.setText(String.format("%02d:%02d", hourOfDay, minute));
+        } else if (text == 3) {
+            editEndOvertimeText.setText(String.format("%02d:%02d", hourOfDay, minute));
         }
     }
 
@@ -137,8 +160,9 @@ public class EditActivity extends AppCompatActivity implements DatePickerDialog.
             }
             result = result - editBreakTime.getValue();
             Log.d("result", String.valueOf(result));
-
-                /*if (!sotime.equals("") && !eotime.equals("")) {
+            sotime = editStartOvertimeText.getText().toString();
+            eotime = editEndOvertimeText.getText().toString();
+                if (!sotime.equals("") && !eotime.equals("")) {
                     //残業時間の計算
                     over_s_time_date = sdf.parse(sotime);
                     over_e_time_date = sdf.parse(eotime);
@@ -149,7 +173,7 @@ public class EditActivity extends AppCompatActivity implements DatePickerDialog.
                         overtimeresult += 24 * 60;
                     }
                     Log.d("overtimeresult", String.valueOf(overtimeresult));
-                }*/
+                }
 
             String[] year = editDateText.getText().toString().split("-");
             ContentValues values = new ContentValues();
@@ -162,9 +186,9 @@ public class EditActivity extends AppCompatActivity implements DatePickerDialog.
             values.put("result", result);
             values.put("yearmonthdate", editDateText.getText().toString());
             values.put("place", editPlace.getText().toString());
-                /*values.put("startovertime", sotime);
-                values.put("endovertime", eotime);
-                values.put("overresult", overtimeresult);*/
+            values.put("startovertime", sotime);
+            values.put("endovertime", eotime);
+            values.put("overresult", overtimeresult);
             values.put("remarks", editRemarks.getText().toString());
             timedb.update("timedb",values,"_id = "+id,null);
             Log.d("MainActivity", "データを更新しました。");
