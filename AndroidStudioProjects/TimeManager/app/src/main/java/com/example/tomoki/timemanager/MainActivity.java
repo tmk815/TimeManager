@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         cursor.moveToFirst();
 
         adapter = new SimpleCursorAdapter(this, R.layout.item, cursor, new String[]{
-                "year", "result"}, new int[]{R.id.listdate, R.id.listtime}, 0);
+                "year", "result","overresult"}, new int[]{R.id.listdate, R.id.listtime,R.id.listovertime}, 0);
         adapter.setViewBinder(this);
         timelistView.setAdapter(adapter);
 
