@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     private static final int DATE = 1;
     private static final int RESULT = 7;
+    private static final int OVERRISULT = 12;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -279,6 +280,13 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 int minute = result % 60;
                 //id.setText("勤務時間："+time+"時間"+minute+"分");
                 id.setText(String.format("%d時間%02d分", time, minute));
+                return true;
+            case OVERRISULT:
+                TextView overtimeresult = (TextView) view;
+                int overresult = Integer.parseInt(cursor.getString(columnIndex));
+                int overtime = overresult / 60;
+                int overminute = overresult % 60;
+                overtimeresult.setText(String.format("%d時間%02d分", overtime, overminute));
                 return true;
             default:
                 break;
