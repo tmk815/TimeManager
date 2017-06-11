@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         databaseHelper = new DatabaseHelper(getApplicationContext());
         timedb = databaseHelper.getWritableDatabase();
         cursor = timedb.query("timedb", null, null, null, null, null, "year DESC,month DESC,date DESC");
+        //cursor = timedb.query("timedb", null, null, null, null, null, "year DESC,month DESC,date DESC");
         cursor.moveToFirst();
 
         adapter = new SimpleCursorAdapter(this, R.layout.item, cursor, new String[]{
@@ -165,7 +166,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 spinnerMonthItem = (String) monthspinner.getSelectedItem();
 
                 timedb = databaseHelper.getWritableDatabase();
-                listcursor = timedb.query(true, "timedb", null, "year = " + spinnerYearItem + " and month = '" + spinnerMonthItem + "'", null, null, null, "date DESC", null);
+                String spinnerMonthItemInt = String.valueOf(Integer.parseInt(spinnerMonthItem)-1);
+                Log.d("spinnerMonthInt", String.valueOf(spinnerMonthItemInt));
+                //listcursor = timedb.query(true, "timedb", null, "year = " + spinnerYearItem + " and month = '" + spinnerMonthItem + "'", null, null, null, "date DESC", null);
+                //listcursor = timedb.query(true, "timedb", null, "year = " + spinnerYearItem + " and (month = '" + spinnerMonthItem +"' or month = '" + spinnerMonthItemInt +"')", null, null, null, "date DESC", null);
+                listcursor = timedb.rawQuery("SELECT * FROM timedb WHERE year = 2017 AND (month = 6 OR month = 7)",null);
                 adapter.changeCursor(listcursor);
                 total = 0;
                 listcursor.moveToFirst();
