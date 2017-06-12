@@ -182,9 +182,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 }
                 Log.d("spinner", spinnerMonthItemInt);
                 if(spinnerMonthItem.equals("01")){
-                    listcursor = timedb.rawQuery("SELECT * FROM timedb WHERE (year = '" + spinnerYearItem + "' AND month = '" + spinnerMonthItem + "' and date < '" + closingDate + "' ) or ( year ='"+ spinnerYearAgo+"' and month = '" + spinnerMonthItemInt + "' and date > '" + startingDate + "' ) order by year,month,date DESC", null);
+                    listcursor = timedb.rawQuery("SELECT * FROM timedb WHERE (year = '" + spinnerYearItem + "' AND month = '" + spinnerMonthItem + "' and date < '" + closingDate + "' ) or ( year ='"+ spinnerYearAgo+"' and month = '" + spinnerMonthItemInt + "' and date > '" + startingDate + "' ) order by year DESC,month,date DESC", null);
+                }else {
+                    listcursor = timedb.rawQuery("SELECT * FROM timedb WHERE year = '" + spinnerYearItem + "' AND (month = '" + spinnerMonthItem + "' and date < '" + closingDate + "') or (month = '" + spinnerMonthItemInt + "' and date > '" + startingDate + "') order by year DESC,month DESC,date DESC", null);
                 }
-                //listcursor = timedb.rawQuery("SELECT * FROM timedb WHERE year = '"+ spinnerYearItem+"' AND (month = '"+ spinnerMonthItem+"' and date < '"+closingDate+"') or (month = '"+ spinnerMonthItemInt+"' and date > '"+startingDate+"')",null);
                 adapter.changeCursor(listcursor);
                 total = 0;
                 listcursor.moveToFirst();
