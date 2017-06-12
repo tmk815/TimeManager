@@ -40,11 +40,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     private TextView dateText;
     private TextView startTime, endTime;
-    private TextView total_result;
+    private TextView total_result,total_over;
     private NumberPicker breaktime;
     private EditText place;
     private ListView timelistView;
-    private int text, total;
+    private int text, total,total_o;
     private SQLiteDatabase timedb;
     private DatabaseHelper databaseHelper;
     private Cursor cursor = null, year_cursor = null, month_cursor = null, listcursor = null;
@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         place = (EditText) findViewById(R.id.place);
         timelistView = (ListView) findViewById(R.id.list);
         total_result = (TextView) findViewById(R.id.total_result);
+        total_over = (TextView) findViewById(R.id.total_over);
         save = (Button) findViewById(R.id.save);
         breaktime.setMinValue(0);
         breaktime.setMaxValue(150);
@@ -191,12 +192,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 }
                 adapter.changeCursor(listcursor);
                 total = 0;
+                total_o=0;
                 listcursor.moveToFirst();
                 for (int i = 0; i < listcursor.getCount(); i++) {
                     total = total + listcursor.getInt(7);
+                    total_o = total_o + listcursor.getInt(12);
                     listcursor.moveToNext();
                 }
                 total_result.setText("総労働時間：" + total / 60 + "時間" + total % 60 + "分");
+                total_over.setText("総残業時間：" + total_o / 60 + "時間" + total_o % 60 + "分");
                 timedb.close();
                 timedb = null;
             }
