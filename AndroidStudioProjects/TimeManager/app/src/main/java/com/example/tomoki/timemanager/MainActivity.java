@@ -314,7 +314,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         switch (columnIndex) {
             case DATE:
                 TextView date = (TextView) view;
-                date.setText(cursor.getString(1) + "-" + cursor.getString(2) + "-" + cursor.getString(3));
+                date.setText(cursor.getString(2) + "月" + cursor.getString(3)+"日");
                 return true;
             case RESULT:
                 TextView id = (TextView) view;
