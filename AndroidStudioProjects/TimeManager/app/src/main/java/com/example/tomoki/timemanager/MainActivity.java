@@ -172,7 +172,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 spinnerMonthItem = (String) monthspinner.getSelectedItem();
 
                 timedb = databaseHelper.getWritableDatabase();
-                String spinnerMonthItemInt = String.valueOf(Integer.parseInt(spinnerMonthItem) - 1);
+                String spinnerMonthItemInt=spinnerMonthItem;
+                if(!closingDate.equals("31")) {
+                    spinnerMonthItemInt = String.valueOf(Integer.parseInt(spinnerMonthItem) - 1);
+                }
                 String spinnerYearAgo= String.valueOf(Integer.parseInt(spinnerYearItem) - 1);
                 if(spinnerMonthItemInt.length()==1) {
                     spinnerMonthItemInt = "0" + spinnerMonthItemInt;
