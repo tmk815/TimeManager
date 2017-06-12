@@ -303,12 +303,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         listcursor = timedb.query("timedb", null, "year = " + spinnerYearItem + " and month = '" + spinnerMonthItem + "'", null, null, null, "year DESC,month DESC,date DESC");
         adapter.changeCursor(listcursor);
         total = 0;
+        total_o=0;
         listcursor.moveToFirst();
         for (int i = 0; i < listcursor.getCount(); i++) {
             total = total + listcursor.getInt(7);
+            total_o = total_o + listcursor.getInt(12);
             listcursor.moveToNext();
         }
         total_result.setText("総労働時間：" + total / 60 + "時間" + total % 60 + "分");
+        total_over.setText("総残業時間：" + total_o / 60 + "時間" + total_o % 60 + "分");
         timedb.close();
         timedb = null;
     }
