@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private ArrayAdapter<String> spinner_adapter_year, spinner_adapter_date;
     boolean dateflag = false, stimeflag = false, etimeflag = false;
     private String spinnerYearItem, spinnerMonthItem;
-    private String closingDate;
+    private String closingDate,startingDate;
     private String sotime="",eotime="", remarks="";
     private Button save;
 
@@ -69,7 +69,13 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
         closingDate = sharedPreferences.getString("closeday","31");
-        Log.d("Preference",closingDate);
+        if (closingDate.equals("31")){
+            startingDate = "01";
+        }else if (closingDate.length() == 1){
+            startingDate = "0" + String.valueOf(Integer.parseInt(closingDate + 1));
+        }else{
+            startingDate = String.valueOf(Integer.parseInt(closingDate + 1));
+        }
 
         dateText = (TextView) findViewById(R.id.dateText);
         startTime = (TextView) findViewById(R.id.startTimeText);
@@ -166,11 +172,19 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 spinnerMonthItem = (String) monthspinner.getSelectedItem();
 
                 timedb = databaseHelper.getWritableDatabase();
-                String spinnerMonthItemInt = String.valueOf(Integer.parseInt(spinnerMonthItem)-1);
-                Log.d("spinnerMonthInt", String.valueOf(spinnerMonthItemInt));
-                //listcursor = timedb.query(true, "timedb", null, "year = " + spinnerYearItem + " and month = '" + spinnerMonthItem + "'", null, null, null, "date DESC", null);
-                //listcursor = timedb.query(true, "timedb", null, "year = " + spinnerYearItem + " and (month = '" + spinnerMonthItem +"' or month = '" + spinnerMonthItemInt +"')", null, null, null, "date DESC", null);
-                listcursor = timedb.rawQuery("SELECT * FROM timedb WHERE year = 2017 AND (month = 6 OR month = 7)",null);
+                String spinnerMonthItemInt = String.valueOf(Integer.parseInt(spinnerMonthItem) - 1);
+                String spinnerYearAgo= String.valueOf(Integer.parseInt(spinnerYearItem) - 1);
+                if(spinnerMonthItemInt.length()==1) {
+                    spinnerMonthItemInt = "0" + spinnerMonthItemInt;
+                }
+                if(spinnerMonthItem.equals("01")){
+                    spinnerMonthItemInt = "12";
+                }
+                Log.d("spinner", spinnerMonthItemInt);
+                if(spinnerMonthItem.equals("01")){
+                    listcursor = timedb.rawQuery("SELECT * FROM timedb WHERE (year = '" + spinnerYearItem + "' AND month = '" + spinnerMonthItem + "' and date < '" + closingDate + "' ) or ( year ='"+ spinnerYearAgo+"' and month = '" + spinnerMonthItemInt + "' and date > '" + startingDate + "' ) order by year,month,date DESC", null);
+                }
+                //listcursor = timedb.rawQuery("SELECT * FROM timedb WHERE year = '"+ spinnerYearItem+"' AND (month = '"+ spinnerMonthItem+"' and date < '"+closingDate+"') or (month = '"+ spinnerMonthItemInt+"' and date > '"+startingDate+"')",null);
                 adapter.changeCursor(listcursor);
                 total = 0;
                 listcursor.moveToFirst();
