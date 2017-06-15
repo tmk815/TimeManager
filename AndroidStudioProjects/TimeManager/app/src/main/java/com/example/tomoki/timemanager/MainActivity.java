@@ -440,9 +440,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 sotime = intent.getStringExtra("sotime");
                 eotime = intent.getStringExtra("eotime");
                 remarks = intent.getStringExtra("remarks");
-                Log.d("sotime",sotime);
-                Log.d("eotime", eotime);
-                Log.d("remarks", remarks);
             }
         } else if (requestCode == 1002) {
             refresh_list();
