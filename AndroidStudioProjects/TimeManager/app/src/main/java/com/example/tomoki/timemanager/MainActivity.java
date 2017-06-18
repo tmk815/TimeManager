@@ -35,6 +35,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import com.microsoft.azure.mobile.MobileCenter;
+import com.microsoft.azure.mobile.analytics.Analytics;
+import com.microsoft.azure.mobile.crashes.Crashes;
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener, SimpleCursorAdapter.ViewBinder {
 
@@ -64,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        MobileCenter.start(getApplication(), "4a705c1a-bf74-43ad-be1d-3db4a2f61aa2", Analytics.class, Crashes.class);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
