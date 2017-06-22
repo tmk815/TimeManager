@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.appwidget.AppWidgetManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -300,6 +301,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                                 deletedb.delete("timedb", "_id = " + currentId, null);
                                 refresh_list();
                                 Toast.makeText(getApplicationContext(), "削除しました",Toast.LENGTH_SHORT).show();
+                                Intent widgetUpdate = new Intent();
+                                widgetUpdate.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                                sendBroadcast(widgetUpdate);
                                 //SpinnerRefresh();
                                 break;
                             case 1:
@@ -342,6 +346,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         total_o=0;
         listcursor.moveToFirst();
         for (int i = 0; i < listcursor.getCount(); i++) {
+            total = total + listcursor.getInt(7);
             total = total + listcursor.getInt(7);
             total_o = total_o + listcursor.getInt(12);
             listcursor.moveToNext();
@@ -439,6 +444,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 Toast.makeText(this, "データを追加しました", Toast.LENGTH_SHORT).show();
                 timedb.setTransactionSuccessful();
                 clearText();
+                Intent widgetUpdate = new Intent();
+                widgetUpdate.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                sendBroadcast(widgetUpdate);
             } catch (Exception e) {
                 Log.e("Database", e.getMessage());
             } finally {

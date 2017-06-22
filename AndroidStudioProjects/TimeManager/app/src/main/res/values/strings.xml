@@ -19,5 +19,5 @@
     <string name="submit">決定</string>
     <string name="update">更新</string>
     <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
+    <string name="add_widget">今日の労働時間：エラー</string>
 </resources>
