@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private long result, overtimeresult=0;
     private ArrayAdapter<String> spinner_adapter_year, spinner_adapter_date;
     boolean dateflag = false, stimeflag = false, etimeflag = false;
-    private String spinnerYearItem, spinnerMonthItem;
+    private String spinnerYearItem, spinnerMonthItem, spinnerYearAgo,spinnerMonthItemInt;
     private String closingDate,startingDate;
     private String sotime="",eotime="", remarks="";
     private Button save;
@@ -178,11 +178,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 spinnerMonthItem = (String) monthspinner.getSelectedItem();
 
                 timedb = databaseHelper.getWritableDatabase();
-                String spinnerMonthItemInt=spinnerMonthItem;
+                spinnerMonthItemInt=spinnerMonthItem;
                 if(!closingDate.equals("31")) {
                     spinnerMonthItemInt = String.valueOf(Integer.parseInt(spinnerMonthItem) - 1);
                 }
-                String spinnerYearAgo= String.valueOf(Integer.parseInt(spinnerYearItem) - 1);
+                spinnerYearAgo= String.valueOf(Integer.parseInt(spinnerYearItem) - 1);
                 if(spinnerMonthItemInt.length()==1) {
                     spinnerMonthItemInt = "0" + spinnerMonthItemInt;
                 }
@@ -229,10 +229,25 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     }
 
-    public void SpinnerRefresh(String yitem, String mitem) {
+    public void SpinnerRefresh() {
         timedb = databaseHelper.getWritableDatabase();
         spinner_adapter_year.clear();
-        year_cursor = timedb.query(true, "timedb", null, null, null, "year", null, "year DESC", null);
+        spinnerMonthItemInt = spinnerMonthItem;
+        if (!closingDate.equals("31")) {
+            spinnerMonthItemInt = String.valueOf(Integer.parseInt(spinnerMonthItem) - 1);
+        }
+        spinnerYearAgo = String.valueOf(Integer.parseInt(spinnerYearItem) - 1);
+        if (spinnerMonthItemInt.length() == 1) {
+            spinnerMonthItemInt = "0" + spinnerMonthItemInt;
+        }
+        if (spinnerMonthItem.equals("01")) {
+            spinnerMonthItemInt = "12";
+        }
+        if (spinnerMonthItem.equals("01")) {
+            year_cursor = timedb.rawQuery("SELECT * FROM timedb WHERE (year = '" + spinnerYearItem + "' AND month = '" + spinnerMonthItem + "' and date < '" + closingDate + "' ) or ( year ='" + spinnerYearAgo + "' and month = '" + spinnerMonthItemInt + "' and date > '" + startingDate + "' ) order by year DESC,month,date DESC", null);
+        } else {
+            year_cursor = timedb.rawQuery("SELECT * FROM timedb WHERE year = '" + spinnerYearItem + "' AND (month = '" + spinnerMonthItem + "' and date < '" + closingDate + "') or (month = '" + spinnerMonthItemInt + "' and date > '" + startingDate + "') order by year DESC,month DESC,date DESC", null);
+        }
         while (year_cursor.moveToNext()) {
             String year = year_cursor.getString(1);
             spinner_adapter_year.add(year);
@@ -305,8 +320,24 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     //ListViewの更新
     public void refresh_list() {
         timedb = databaseHelper.getWritableDatabase();
-        listcursor = timedb.query("timedb", null, "year = " + spinnerYearItem + " and month = '" + spinnerMonthItem + "'", null, null, null, "year DESC,month DESC,date DESC");
-        adapter.changeCursor(listcursor);
+        //listcursor = timedb.query("timedb", null, "year = " + spinnerYearItem + " and month = '" + spinnerMonthItem + "'", null, null, null, "year DESC,month DESC,date DESC");
+        spinnerMonthItemInt = spinnerMonthItem;
+        if (!closingDate.equals("31")) {
+            spinnerMonthItemInt = String.valueOf(Integer.parseInt(spinnerMonthItem) - 1);
+        }
+        spinnerYearAgo = String.valueOf(Integer.parseInt(spinnerYearItem) - 1);
+        if (spinnerMonthItemInt.length() == 1) {
+            spinnerMonthItemInt = "0" + spinnerMonthItemInt;
+        }
+        if (spinnerMonthItem.equals("01")) {
+            spinnerMonthItemInt = "12";
+        }
+        if (spinnerMonthItem.equals("01")) {
+            listcursor = timedb.rawQuery("SELECT * FROM timedb WHERE (year = '" + spinnerYearItem + "' AND month = '" + spinnerMonthItem + "' and date < '" + closingDate + "' ) or ( year ='" + spinnerYearAgo + "' and month = '" + spinnerMonthItemInt + "' and date > '" + startingDate + "' ) order by year DESC,month,date DESC", null);
+        } else {
+            listcursor = timedb.rawQuery("SELECT * FROM timedb WHERE year = '" + spinnerYearItem + "' AND (month = '" + spinnerMonthItem + "' and date < '" + closingDate + "') or (month = '" + spinnerMonthItemInt + "' and date > '" + startingDate + "') order by year DESC,month DESC,date DESC", null);
+        }
+       adapter.changeCursor(listcursor);
         total = 0;
         total_o=0;
         listcursor.moveToFirst();
@@ -413,7 +444,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             } finally {
                 timedb.endTransaction();
                 refresh_list();
-                SpinnerRefresh(spinnerYearItem, spinnerMonthItem);
+                SpinnerRefresh();
             }
         } else {
             //エラーのダイアログを表示
