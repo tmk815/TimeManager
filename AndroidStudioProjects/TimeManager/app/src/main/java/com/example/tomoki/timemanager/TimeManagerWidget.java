@@ -45,11 +45,6 @@ public class TimeManagerWidget extends AppWidgetProvider {
             int time = cursor.getInt(7);
             views.setTextViewText(R.id.appwidget_text, "今日の労働時間\n" + time / 60 + "時間" + time % 60 + "分");
         }
-
-
-
-
-
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
